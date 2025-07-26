@@ -1,9 +1,64 @@
-import React from 'react'
+import axios from "axios";
+import React from "react";
+import { useEffect } from "react";
+export function Cloths({cloths,setClothes}) {
+  
+  useEffect(() => {
+    async function fetchClothes() {
+      try {
+        const res = await axios.get("http://localhost:5000/api/clothes");
+        console.log("Fetched clothes:", res.data);
+        setClothes(res.data.data);
+      } catch (error) {
+        console.error("error fetching clothes", error);
+      }
+    }
+    fetchClothes();
+  }, []);
+ 
+  async function AddToCart(cloth) {
+  try {
+    const userId = localStorage.getItem("userId"); 
+    if (!userId) {
+ console.log("UserId from localStorage:", userId);
 
-export function Cloths() {
+  return;
+}
+
+    const body = {
+      userId,
+      clothId: cloth._id,
+      quantity: 1, 
+    };
+
+    const res = await axios.post("http://localhost:5000/api/cart", body);
+    console.log("Added to cart:", res.data);
+  } catch (error) {
+    console.error("Error adding to cart", error);
+  }
+}
+
   return (
-    <div>
-      Cloths
+    <div className="cloth-container">
+      <div className="cloth-info">
+       <p>wedding suit </p>
+       <p>Business suit</p>
+       <p>old suit</p>
+       <p>black</p>
+       <p>white</p>
+       <p>brown</p>
+       <p>blue</p>
+       
+      </div>
+      {cloths.map((cloth) => (
+        <div className="cloth-box" key={cloth._id}>
+          <img src={cloth.image} />
+          <p>{cloth.description}</p>
+          <p>{cloth.size}</p>
+          <p>{cloth.price} ETB</p>
+          <button onClick={()=>AddToCart(cloth)}>Add to cart</button>
+        </div>
+      ))}
     </div>
-  )
+  );
 }

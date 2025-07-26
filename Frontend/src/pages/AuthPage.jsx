@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { PageNav } from "../components/PageNav";
 import { useNavigate } from "react-router-dom";
-export function AuthPage({setIsLoggedIn,isLoggedIn}) {
+export function AuthPage({ setIsLoggedIn, isLoggedIn,role,setRole }) {
   const [isRegistered, setIsRegistered] = useState(false);
-  const navigate=useNavigate();
-
+  const navigate = useNavigate();
+  
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -24,20 +24,26 @@ export function AuthPage({setIsLoggedIn,isLoggedIn}) {
       if (!isRegistered) {
         const res = await axios.post(
           "http://localhost:5000/api/auth/register",
-          form
+          { ...form, role }
         );
         alert("Registered successfully! Please login.");
         setIsRegistered(true);
-        navigate("/cloths")
+        navigate("/cloths");
       } else {
         const res = await axios.post("http://localhost:5000/api/auth/login", {
           email: form.email,
           password: form.password,
+           role,
         });
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.user.role);
+        localStorage.setItem("userId", res.data.user.id);
+        console.log("Stored userId:", res.data.user.id);
+
         alert("Login successful!");
         setIsLoggedIn(true);
-        navigate("/cloths")
+        setRole(res.data.user.role);
+        navigate("/cloths");
       }
     } catch (err) {
       console.error(err.response?.data?.message || err.message);
@@ -46,10 +52,25 @@ export function AuthPage({setIsLoggedIn,isLoggedIn}) {
   }
   return (
     <div className="auth-page">
-      <PageNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      <PageNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <form onSubmit={handleSubmit} className="auth-form">
         <h3>{isRegistered ? "Sign In" : "Register"}</h3>
-
+    <div className="role-toggle">
+          <button
+            className={role === "user" ? "active" : ""}
+            onClick={() => setRole("user")}
+            type="button"
+          >
+            User
+          </button>
+          <button
+            className={role === "owner" ? "active" : ""}
+            onClick={() => setRole("admin")}
+            type="button"
+          >
+            admin
+          </button>
+        </div>
         {!isRegistered && (
           <input
             type="text"
@@ -59,6 +80,7 @@ export function AuthPage({setIsLoggedIn,isLoggedIn}) {
           />
         )}
         <br />
+    
         <input
           type="email"
           name="email"

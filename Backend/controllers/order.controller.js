@@ -1,6 +1,5 @@
 import Order from "../models/order.model.js";
 
-// POST /api/orders - create order
 export const createOrder = async (req, res) => {
   try {
     const { userId, items } = req.body;
@@ -11,7 +10,6 @@ export const createOrder = async (req, res) => {
   }
 };
 
-// GET /api/orders/:userId - get orders of a user
 export const getMyOrders = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -22,7 +20,6 @@ export const getMyOrders = async (req, res) => {
   }
 };
 
-// GET /api/orders - get all orders (admin)
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({});

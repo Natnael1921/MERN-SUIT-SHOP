@@ -1,7 +1,7 @@
 import Cart from "../models/cart.model.js";
 
-// Add item to cart
 export const addToCart = async (req, res) => {
+  console.log("Received body:", req.body);
   const { userId, clothId, quantity } = req.body;
   if (!userId || !clothId) return res.status(400).json({ message: "Missing fields" });
 
@@ -20,7 +20,6 @@ export const addToCart = async (req, res) => {
   }
 };
 
-// Get all cart items for a user
 export const getUserCart = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -31,7 +30,6 @@ export const getUserCart = async (req, res) => {
   }
 };
 
-// Delete item from cart
 export const deleteCartItem = async (req, res) => {
   const { id } = req.params;
   try {

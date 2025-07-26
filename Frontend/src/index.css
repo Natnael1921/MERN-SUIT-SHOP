@@ -29,6 +29,9 @@ body {
   z-index: 999;
   color: rgb(254, 254, 254);
   height: 55px;
+    
+
+
 }
 .nav-bar a:link,
 .nav-bar a:visited {
@@ -169,4 +172,51 @@ h3 {
 
 .auth-button {
   height: 40px;
+}
+/*cloth list*/
+.cloth-box img{
+  height: 200px;
+  width: 190px;
+}
+.cloth-box p{
+  line-height: 20%;
+  text-align: center;
+}
+.cloth-box button{
+  margin-left: 50px;
+}
+
+.cloth-container{
+  display: flex;
+  gap: 40px;
+  padding: 60px;
+  }
+  .cloth-info{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 200px;
+    align-items: center;
+    border: 1px solid grey;
+    }
+    .cloth-info {
+      border-bottom: 1px solid grey
+    }
+
+    /*cart */
+ .cart-box{
+  display: flex;
+  gap: 30px;
+ }
+ .cart-box p{
+
+ }
+ .cart-box img{
+  height: 100px;
+  width: 100px;
+ }
+/*Admin dashboard*/
+.cloth-form{
+  margin-top: 300px;
+  
 }

@@ -1,7 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export function PageNav({ isLoggedIn,setIsLoggedIn }) {
+export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setRole("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+  };
+
   return (
     <nav className="nav-bar">
       <NavLink to="/">
@@ -10,27 +17,43 @@ export function PageNav({ isLoggedIn,setIsLoggedIn }) {
 
       <ul>
         <li>
-          <NavLink to="/cloths">Cloths</NavLink>
+          {isLoggedIn && role === "admin" ? (
+            <>
+            <NavLink to="/orders-in">Orders in</NavLink>
+            <NavLink to="/manage-cloths">Manage cloths</NavLink>
+            </>
+          ) : (
+            <NavLink to="/cloths">Cloths</NavLink>
+          )}
         </li>
+
         <li>
           <NavLink to="/contact">Contact Us</NavLink>
         </li>
 
         {isLoggedIn ? (
           <>
+            {role === "user" && (
+              <>
+                <li>
+                  <NavLink to="/cart">Cart</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/order">Order</NavLink>
+                </li>
+              </>
+            )}
             <li>
-              <NavLink to="/cart">Cart</NavLink>
+              <button className="login-button" onClick={handleLogout}>
+                Log out
+              </button>
             </li>
-            <li>
-              <NavLink to="/order">Order</NavLink>
-            </li>
-            <li>
-         <button className="login-button"  onClick={() => setIsLoggedIn(false)}>Log out</button>
-          </li>
           </>
         ) : (
           <li>
-            <NavLink className="login-button" to="/auth">Login</NavLink>
+            <NavLink className="login-button" to="/auth">
+              Login
+            </NavLink>
           </li>
         )}
       </ul>
