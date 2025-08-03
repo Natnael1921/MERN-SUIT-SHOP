@@ -63,17 +63,28 @@ export function Cart() {
   }
 
   return (
-    <div>
+    <div className="cart-page">
       {cartItems.map((item) =>
         item.clothId ? (
           <div className="cart-box" key={item._id}>
             <img src={item.clothId.image} alt="cart-image" />
             <div>
-              <p>{item.clothId.description}</p>
-              <p>{item.clothId.size}</p>
-              <p>{item.clothId.price}</p>
-              <button onClick={() => deleteCartItem(item._id)}>delete</button>
-              <button onClick={() => handleOrder(item)}>order</button>
+              <p>Type :  {item.clothId.description}</p>
+              <p>Size : {item.clothId.size}</p>
+              <p>Price : {item.clothId.price}</p>
+
+              <button
+                className="order-button"
+                onClick={() => handleOrder(item)}
+              >
+                order
+              </button>
+              <button
+                className="delete-button"
+                onClick={() => deleteCartItem(item._id)}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ) : null

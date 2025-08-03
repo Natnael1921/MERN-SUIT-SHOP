@@ -2,14 +2,14 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-export function ManageCloths({cloths,setClothes}) {
+export function ManageCloths({ cloths, setClothes }) {
   const [clothForm, setClothForm] = useState({
     image: "",
     description: "",
     price: "",
     size: "",
   });
- 
+const [addIsOpen,setAddIsOpen]=useState(false);
   useEffect(() => {
     async function fetchClothes() {
       try {
@@ -54,20 +54,26 @@ export function ManageCloths({cloths,setClothes}) {
     }
   }
   return (
-    <div className="cloth-form">
-      <form onSubmit={handleSubmit}>
+    <div>
+      {addIsOpen?
+      <form className="cloth-form" onSubmit={handleSubmit}>
+        <button 
+        type="button"  className="close-button" onClick={()=>setAddIsOpen(false)}>&times;
+</button>
         <input
           type="url"
           placeholder="cloth image"
           name="image"
           onChange={handleChange}
         />
+        <br/>
         <input
           type="text"
           placeholder="cloth description"
           name="description"
           onChange={handleChange}
         />
+        <br/>
         <input
           type="number"
           placeholder="price"
@@ -80,8 +86,9 @@ export function ManageCloths({cloths,setClothes}) {
           name="size"
           onChange={handleChange}
         />
-        <button type="sumbit">add</button>
-      </form>
+        <button className="add-close-button" type="submit">add</button>
+      </form>:<button className="add-button" onClick={()=>setAddIsOpen(true)}>Add cloth</button>}
+      <div className="admin-cloth-container">
       {cloths.map((cloth) => (
         <div className="cloth-box" key={cloth._id}>
           <img src={cloth.image} />
@@ -91,6 +98,7 @@ export function ManageCloths({cloths,setClothes}) {
           <button onClick={() => deleteCloth(cloth._id)}>delete</button>
         </div>
       ))}
+      </div>
     </div>
   );
 }

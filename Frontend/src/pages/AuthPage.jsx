@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { PageNav } from "../components/PageNav";
 import { useNavigate } from "react-router-dom";
-export function AuthPage({ setIsLoggedIn, isLoggedIn,role,setRole }) {
+export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
-  
+
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -33,7 +33,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn,role,setRole }) {
         const res = await axios.post("http://localhost:5000/api/auth/login", {
           email: form.email,
           password: form.password,
-           role,
+          role,
         });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("role", res.data.user.role);
@@ -43,7 +43,11 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn,role,setRole }) {
         alert("Login successful!");
         setIsLoggedIn(true);
         setRole(res.data.user.role);
-        navigate("/cloths");
+        if (res.data.user.role === "user") {
+          navigate("/cloths");
+        } else {
+          navigate("/dashboard");
+        }
       }
     } catch (err) {
       console.error(err.response?.data?.message || err.message);
@@ -55,7 +59,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn,role,setRole }) {
       <PageNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <form onSubmit={handleSubmit} className="auth-form">
         <h3>{isRegistered ? "Sign In" : "Register"}</h3>
-    <div className="role-toggle">
+        <div className="role-toggle">
           <button
             className={role === "user" ? "active" : ""}
             onClick={() => setRole("user")}
@@ -80,7 +84,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn,role,setRole }) {
           />
         )}
         <br />
-    
+
         <input
           type="email"
           name="email"
