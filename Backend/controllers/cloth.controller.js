@@ -54,3 +54,23 @@ export async function deleteCloths(req, res) {
     res.status(500).json({ success: false, message: "Server error" });
   }
 }
+//update clothes
+export async function updateCloth(req, res) {
+  const { id } = req.params;
+
+  try {
+    const updated = await Cloth.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: "Cloth not found" });
+    }
+
+    res.json({ success: true, message: "Cloth updated", cloth: updated });
+  } catch (error) {
+    console.error("Error updating cloth:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+}

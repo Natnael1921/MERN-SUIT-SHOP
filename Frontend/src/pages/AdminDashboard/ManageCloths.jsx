@@ -1,103 +1,149 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect } from "react";
+
 export function ManageCloths({ cloths, setClothes }) {
   const [clothForm, setClothForm] = useState({
     image: "",
     description: "",
     price: "",
     size: "",
+    type: "",
+    color: "",
   });
-const [addIsOpen,setAddIsOpen]=useState(false);
+
+  const [addIsOpen, setAddIsOpen] = useState(false);
+  const [editIsOpen, setEditIsOpen] = useState(false);
+  const [editId, setEditId] = useState(null);
+
   useEffect(() => {
     async function fetchClothes() {
-      try {
-        const res = await axios.get("http://localhost:5000/api/clothes");
-        console.log("Fetched clothes:", res.data);
-        setClothes(res.data.data);
-      } catch (error) {
-        console.error("error fetching clothes", error);
-      }
+      const res = await axios.get("http://localhost:5000/api/clothes");
+      setClothes(res.data.data);
     }
     fetchClothes();
   }, []);
+
   function handleChange(e) {
     setClothForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   }
+
+  // Add cloth
   async function handleSubmit(e) {
     e.preventDefault();
+    const res = await axios.post("http://localhost:5000/api/clothes", clothForm);
+    alert("Cloth added!");
+    setAddIsOpen(false);
+    setClothes((prev) => [...prev, res.data.cloth]);
+  }
+
+  // Open edit form
+  function openEdit(cloth) {
+    setEditId(cloth._id);
+    setClothForm(cloth);
+    setEditIsOpen(true);
+  }
+
+  // Update cloth
+  async function handleUpdate(e) {
+    e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/clothes",
+      const res = await axios.put(
+        `http://localhost:5000/api/clothes/${editId}`,
         clothForm
       );
-      console.log("added successfully!");
+
+      setClothes((prev) =>
+        prev.map((c) => (c._id === editId ? res.data.cloth : c))
+      );
+
+      alert("Updated successfully!");
+      setEditIsOpen(false);
     } catch (err) {
-      console.error(err.response?.data?.message || err.message);
-      alert("Error occurred. Try again.");
+      alert("Update failed");
     }
   }
 
-  //delete
+  // Delete cloth
   async function deleteCloth(id) {
-    try {
-      const res = await axios.delete(`http://localhost:5000/api/clothes/${id}`);
-      setClothes((prev) => prev.filter((cloth) => cloth._id !== id));
-      alert("deleted succesfully!");
-    } catch (error) {
-      alert("error deleting cloth");
-      console.error("error deleting cloth", error);
-    }
+    await axios.delete(`http://localhost:5000/api/clothes/${id}`);
+    setClothes((prev) => prev.filter((cloth) => cloth._id !== id));
   }
+
   return (
     <div>
-      {addIsOpen?
-      <form className="cloth-form" onSubmit={handleSubmit}>
-        <button 
-        type="button"  className="close-button" onClick={()=>setAddIsOpen(false)}>&times;
-</button>
-        <input
-          type="url"
-          placeholder="cloth image"
-          name="image"
-          onChange={handleChange}
-        />
-        <br/>
-        <input
-          type="text"
-          placeholder="cloth description"
-          name="description"
-          onChange={handleChange}
-        />
-        <br/>
-        <input
-          type="number"
-          placeholder="price"
-          name="price"
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          placeholder="size"
-          name="size"
-          onChange={handleChange}
-        />
-        <button className="add-close-button" type="submit">add</button>
-      </form>:<button className="add-button" onClick={()=>setAddIsOpen(true)}>Add cloth</button>}
+      {addIsOpen && (
+        <form className="cloth-form" onSubmit={handleSubmit}>
+          <button type="button" onClick={() => setAddIsOpen(false)}>×</button>
+
+          <input type="url" name="image" placeholder="Image" onChange={handleChange} />
+          <input type="text" name="description" placeholder="Description" onChange={handleChange} />
+          <input type="number" name="price" placeholder="Price" onChange={handleChange} />
+          <input type="number" name="size" placeholder="Size" onChange={handleChange} />
+
+          <select name="type" onChange={handleChange}>
+            <option value="">Type</option>
+            <option value="wedding">Wedding</option>
+            <option value="business">Business</option>
+            <option value="casual">Casual</option>
+          </select>
+
+          <select name="color" onChange={handleChange}>
+            <option value="">Color</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <option value="brown">Brown</option>
+            <option value="blue">Blue</option>
+          </select>
+
+          <button>Add</button>
+        </form>
+      )}
+
+      {editIsOpen && (
+        <form className="cloth-form" onSubmit={handleUpdate}>
+          <button type="button" onClick={() => setEditIsOpen(false)}>×</button>
+
+          <input type="url" name="image" value={clothForm.image} onChange={handleChange} />
+          <input type="text" name="description" value={clothForm.description} onChange={handleChange} />
+          <input type="number" name="price" value={clothForm.price} onChange={handleChange} />
+          <input type="number" name="size" value={clothForm.size} onChange={handleChange} />
+
+          <select name="type" value={clothForm.type} onChange={handleChange}>
+            <option value="">Type</option>
+            <option value="wedding">Wedding</option>
+            <option value="business">Business</option>
+            <option value="casual">Casual</option>
+          </select>
+
+          <select name="color" value={clothForm.color} onChange={handleChange}>
+            <option value="">Color</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <option value="brown">Brown</option>
+            <option value="blue">Blue</option>
+          </select>
+
+          <button>Update</button>
+        </form>
+      )}
+
       <div className="admin-cloth-container">
-      {cloths.map((cloth) => (
-        <div className="cloth-box" key={cloth._id}>
-          <img src={cloth.image} />
-          <p>{cloth.description}</p>
-          <p>{cloth.size}</p>
-          <p>{cloth.price} ETB</p>
-          <button onClick={() => deleteCloth(cloth._id)}>delete</button>
-        </div>
-      ))}
+        {cloths.map((cloth) => (
+          <div className="cloth-box" key={cloth._id}>
+            <img src={cloth.image} />
+            <p>{cloth.description}</p>
+            <p>Type: {cloth.type}</p>
+            <p>Color: {cloth.color}</p>
+            <p>Size: {cloth.size}</p>
+            <p>{cloth.price} ETB</p>
+
+            <button onClick={() => openEdit(cloth)}>edit</button>
+            <button onClick={() => deleteCloth(cloth._id)}>delete</button>
+          </div>
+        ))}
       </div>
     </div>
   );
