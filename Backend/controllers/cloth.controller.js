@@ -1,14 +1,22 @@
 import Cloth from "../models/cloth.model.js";
 
 export async function addCloths(req, res) {
-  const { image, description, size, price } = req.body;
-  if (!description || !size || !price || !image) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Please provide all fields" });
+  const { image, description, size, price, type, color } = req.body;
+  if (!description || !size || !price || !image || !type || !color) {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide all fields",
+    });
   }
   try {
-    const cloth = await Cloth.create({ image, description, size, price });
+    const cloth = await Cloth.create({
+      image,
+      description,
+      size,
+      price,
+      type,
+      color,
+    });
     res.status(201).json({ message: "Cloth Added successfully !", cloth });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -17,7 +25,13 @@ export async function addCloths(req, res) {
 
 export async function getCloths(req, res) {
   try {
-    const clothes = await Cloth.find();
+    const { type, color } = req.query;
+
+    const filter = {};
+    if (type) filter.type = type;
+    if (color) filter.color = color;
+
+    const clothes = await Cloth.find(filter);
     res.status(200).json({ success: true, data: clothes });
   } catch (error) {
     console.error("Error fetching products:", error.message);
