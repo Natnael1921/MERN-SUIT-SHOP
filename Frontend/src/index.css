@@ -29,6 +29,8 @@ body {
   z-index: 999;
   color: rgb(254, 254, 254);
   height: 55px;
+  backdrop-filter: blur(100px);
+  border-bottom: 1px solid #1e1e1e;
 }
 .nav-bar a:link,
 .nav-bar a:visited {
@@ -441,3 +443,7 @@ h3 {
 .pie-chart {
   margin-left: 450px;
 }
+/*orders in*/
+ .orders-in{
+  margin-left: 300px;
+ }

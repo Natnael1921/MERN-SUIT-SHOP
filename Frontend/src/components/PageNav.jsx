@@ -26,10 +26,10 @@ export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
               <div className="sidebar-contents">
                 <NavLink to="/dashboard">Dashboard</NavLink>
                 <NavLink to="/manage-cloths">Manage cloths</NavLink>
+                <NavLink to="/orders-in">Orders in</NavLink>
                 <NavLink to="/dashboard">Users</NavLink>
                 <NavLink to="/dashboard">Shipping</NavLink>
                 <NavLink to="/dashboard">Finance</NavLink>
-                <NavLink to="/orders-in">Orders in</NavLink>
 
                 <button className="login-button" onClick={handleLogout}>
                   Log out

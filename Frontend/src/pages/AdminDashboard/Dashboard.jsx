@@ -1,5 +1,5 @@
 import React from "react";
-import Cloth from "../../../../Backend/models/cloth.model";
+import Cloth from "../../../../Backend/node_modules/models/cloth.model";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 const data = [
@@ -20,7 +20,7 @@ export function Dashboard() {
               data={data}
               dataKey="value"
               nameKey="name"
-              cx="50%" 
+              cx="50%"
               cy="50%"
               outerRadius={70}
               fill="#8884d8"

@@ -11,6 +11,7 @@ import { ManageCloths } from "./pages/AdminDashboard/ManageCloths";
 import { Cart } from "./pages/Cart";
 import { Order } from "./pages/Order";
 import { Dashboard } from "./pages/AdminDashboard/Dashboard";
+import { OrdersIn } from "./pages/AdminDashboard/OrdersIn";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,6 +51,7 @@ export default function App() {
           element={<ManageCloths cloths={cloths} setClothes={setClothes} />}
         />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/orders-in" element={<OrdersIn/>}/>
       </Routes>
     </BrowserRouter>
   );
