@@ -1,6 +1,7 @@
 import React from "react";
 import Cloth from "../../../../Backend/node_modules/models/cloth.model";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import "../../styles/admin.css";
 
 const data = [
   { name: "Wedding", value: 20 },

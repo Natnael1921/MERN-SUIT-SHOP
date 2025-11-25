@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import "../styles/cart.css";
 export function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem("userId");

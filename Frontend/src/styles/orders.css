@@ -1,0 +1,16 @@
+/*Order page*/
+.orders-page {
+  margin: 100px 0 0 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.order-box {
+  display: flex;
+  gap: 20px;
+}
+.order-box img {
+  height: 150px;
+}
+
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "../../styles/admin.css";
 export function ManageCloths({ cloths, setClothes }) {
   const [clothForm, setClothForm] = useState({
     image: "",

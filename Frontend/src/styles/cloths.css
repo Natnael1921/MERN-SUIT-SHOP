@@ -1,0 +1,42 @@
+/*cloth list*/
+.cloth-box img {
+  height: 120px;
+  width: 150px;
+}
+.cloth-box p {
+  line-height: 50%;
+}
+.cloth-box button {
+  border: none;
+  background-color: gold;
+  height: 23px;
+  width: 100px;
+  border-radius: 20px;
+  color: darkblue;
+  cursor: pointer;
+}
+
+.cloth-container {
+  display: flex;
+  gap: 40px;
+  padding: 60px;
+  flex-wrap: wrap;
+}
+.cloth-box:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  z-index: 10;
+  position: relative;
+}
+.cloth-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  align-items: center;
+  border-right: 1px solid grey;
+  padding-top: 101px;
+}
+.cloth-page {
+  display: flex;
+}

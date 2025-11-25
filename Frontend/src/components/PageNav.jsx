@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import "../styles/nav.css";
 export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
   const navigate = useNavigate();
 

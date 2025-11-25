@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
+import "../styles/cloths.css";
 export function Cloths({ cloths, setClothes }) {
   const types = ["All", "Wedding", "Business", "Vintage"];
   const colors = ["Black", "White", "Brown", "Blue"];

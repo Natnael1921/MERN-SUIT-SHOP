@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { PageNav } from "../components/PageNav";
 import { useNavigate } from "react-router-dom";
+import "../styles/auth.css";
 export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();

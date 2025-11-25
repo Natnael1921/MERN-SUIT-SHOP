@@ -1,0 +1,96 @@
+/*homepage*/
+.home-page .section-one {
+  position: relative;
+  height: 95vh;
+  padding-top: 30px;
+  padding-left: 50px;
+}
+
+.home-page .section-one h1 {
+  font-size: 70px;
+  width: 800px;
+  margin-top: 60px;
+}
+
+.landing-footer {
+  display: flex;
+  margin-top: 40px;
+}
+
+.home-page .section-one p {
+  width: 400px;
+  margin-top: 20px;
+}
+
+.home-page .section-one button {
+  margin-top: 50px;
+  width: 170px;
+  height: 50px;
+  border: none;
+  border-radius: 50px;
+  color: rgb(14, 14, 77);
+  background-color: gold;
+  margin-left: 100px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.landing-page-image {
+  position: absolute;
+  right: 70px;
+  top: 30px;
+  bottom: 0;
+  height: calc(100vh - 30px);
+  object-fit: contain;
+  z-index: -1;
+}
+
+.section-two {
+  background-color: rgb(254, 252, 252);
+  color: #1e1e1e;
+}
+
+.our-collections {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  margin: 0 100px;
+  background-color: white;
+}
+
+.section-two h2 {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.our-collections img {
+  height: 250px;
+  width: 210px;
+  border-radius: 10px;
+}
+
+.our-collections h4 {
+  text-align: center;
+  font-size: 18px;
+}
+
+/*customer comments*/
+.customer-comments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.comments {
+  background-color: #dfdfdf;
+}
+.comment-box {
+  background-color: white;
+  color: black;
+  padding: 30px;
+  margin: 30px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
