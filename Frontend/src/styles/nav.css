@@ -42,3 +42,16 @@
   width: 100px;
   margin-left: 40px;
 }
+.nav-bar a:link,
+.nav-bar a:visited {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-bar a:hover {
+  color: gold;
+  transform: translateY(-2px);
+}

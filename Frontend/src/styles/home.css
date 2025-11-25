@@ -9,7 +9,7 @@
 .home-page .section-one h1 {
   font-size: 70px;
   width: 800px;
-  margin-top: 60px;
+  margin-top: 85px;
 }
 
 .landing-footer {
@@ -44,53 +44,94 @@
   object-fit: contain;
   z-index: -1;
 }
-
+/* SECTION TWO: Collections */
 .section-two {
-  background-color: rgb(254, 252, 252);
-  color: #1e1e1e;
-}
-
-.our-collections {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px;
-  margin: 0 100px;
-  background-color: white;
+  background-color: #fafafa;
+  padding: 70px 0;
 }
 
 .section-two h2 {
   text-align: center;
-  padding-top: 10px;
+  font-size: 30px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  color: #222;
+}
+
+/* COLLECTION CARDS */
+.our-collections {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 0 80px;
+}
+
+.our-collections div {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 230px;
+}
+
+.our-collections div:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 .our-collections img {
-  height: 250px;
-  width: 210px;
-  border-radius: 10px;
+  height: 270px;
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .our-collections h4 {
-  text-align: center;
+  margin-top: 10px;
   font-size: 18px;
+  color: #252525;
 }
 
-/*customer comments*/
+
+/*SECTION THREE: Comments */
+.comments {
+  background-color: #e9e9e9;
+  padding: 50px 0;
+  margin-top: 40px;
+}
+
+.comments h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* COMMENT ROW */
 .customer-comments {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
+  justify-content: center;
+  gap: 95px;
+  padding: 0 50px;
 }
-.comments {
-  background-color: #dfdfdf;
-}
+
+/* COMMENT BOX */
 .comment-box {
   background-color: white;
-  color: black;
-  padding: 30px;
-  margin: 30px;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  border-radius: 10px;
+  width: 320px;
+  min-height: 160px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.comment-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.15);
 }
