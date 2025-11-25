@@ -87,6 +87,7 @@ export function ManageCloths({ cloths, setClothes }) {
             <option value="">Type</option>
             <option value="wedding">Wedding</option>
             <option value="business">Business</option>
+            <option value="vintage">vintage</option>
             <option value="casual">Casual</option>
           </select>
 
@@ -115,6 +116,7 @@ export function ManageCloths({ cloths, setClothes }) {
             <option value="">Type</option>
             <option value="wedding">Wedding</option>
             <option value="business">Business</option>
+            <option value="vintage">vintage</option>
             <option value="casual">Casual</option>
           </select>
 

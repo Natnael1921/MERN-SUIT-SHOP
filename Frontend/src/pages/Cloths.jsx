@@ -2,19 +2,18 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 export function Cloths({ cloths, setClothes }) {
-  const types = ["Wedding", "Business", "Old"];
+  const types = ["All", "Wedding", "Business", "Vintage"];
   const colors = ["Black", "White", "Brown", "Blue"];
-
-  useEffect(() => {
-    async function fetchClothes() {
-      try {
-        const res = await axios.get("http://localhost:5000/api/clothes");
-        console.log("Fetched clothes:", res.data);
-        setClothes(res.data.data);
-      } catch (error) {
-        console.error("error fetching clothes", error);
-      }
+  async function fetchClothes() {
+    try {
+      const res = await axios.get("http://localhost:5000/api/clothes");
+      console.log("Fetched clothes:", res.data);
+      setClothes(res.data.data);
+    } catch (error) {
+      console.error("error fetching clothes", error);
     }
+  }
+  useEffect(() => {
     fetchClothes();
   }, []);
 
@@ -50,7 +49,14 @@ export function Cloths({ cloths, setClothes }) {
     <div className="cloth-page">
       <div className="cloth-info">
         {types.map((t) => (
-          <p key={t} onClick={() => filterClothes("type", t.toLowerCase())}>
+          <p
+            key={t}
+            onClick={() =>
+              t === "All"
+                ? fetchClothes()
+                : filterClothes("type", t.toLowerCase())
+            }
+          >
             {t}
           </p>
         ))}
