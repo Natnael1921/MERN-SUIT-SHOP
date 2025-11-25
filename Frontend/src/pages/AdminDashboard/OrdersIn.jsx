@@ -16,6 +16,20 @@ export function OrdersIn() {
     }
     getAllOrders();
   }, []);
+  async function updateStatus(orderId, status) {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/orders/status/${orderId}`,
+        { status }
+      );
+      setOrdersIn((prev) =>
+        prev.map((o) => (o._id === orderId ? res.data : o))
+      );
+    } catch (err) {
+      alert("Failed to update order status");
+      console.error(err);
+    }
+  }
 
   return (
     <div className="orders-in">
@@ -30,6 +44,19 @@ export function OrdersIn() {
               <p>Size: {item.size}</p>
               <p>Price: ${item.price}</p>
               <p>Quantity: {item.quantity}</p>
+              <button
+                onClick={() => updateStatus(order._id, "accepted")}
+                className="accept-btn"
+              >
+                Accept Order
+              </button>
+
+              <button
+                onClick={() => updateStatus(order._id, "rejected")}
+                className="reject-btn"
+              >
+                Reject
+              </button>
             </div>
           ))}
           <hr />

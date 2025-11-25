@@ -35,6 +35,10 @@ export function Order() {
                 <p>Price: {item.price}</p>
                 <p>Size: {item.size}</p>
                 <p>Quantity: {item.quantity}</p>
+                <p>
+                  Status:
+                  {order.status === "accepted" ? "Delivered" : "Shipping"}
+                </p>
               </div>
             </div>
           ))}
