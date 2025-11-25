@@ -24,20 +24,24 @@ export function Order() {
   return (
     <div className="orders-page">
       {orders.map((order, orderIndex) => (
-        <div key={order._id || orderIndex}>
+        <div key={order._id || orderIndex} className="order-box">
           {order.items.map((item, itemIndex) => (
-            <div key={itemIndex} className="order-box">
-              <div>
-                <img src={item.image} alt="order item" />
-              </div>
+            <div key={itemIndex} className="order-item">
+              <img src={item.image} alt="order item" />
               <div>
                 <p>{item.description}</p>
                 <p>Price: {item.price}</p>
                 <p>Size: {item.size}</p>
                 <p>Quantity: {item.quantity}</p>
                 <p>
-                  Status:
-                  {order.status === "accepted" ? "Delivered" : "Shipping"}
+                  Status:{" "}
+                  <span
+                    className={`order-status ${
+                      order.status === "accepted" ? "delivered" : "shipping"
+                    }`}
+                  >
+                    {order.status === "accepted" ? "Delivered" : "Shipping"}
+                  </span>
                 </p>
               </div>
             </div>
