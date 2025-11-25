@@ -2,9 +2,11 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import "../styles/cloths.css";
+import { useState } from "react";
 export function Cloths({ cloths, setClothes }) {
   const types = ["All", "Wedding", "Business", "Vintage"];
   const colors = ["Black", "White", "Brown", "Blue"];
+  const [activeType, setActiveType] = useState("All");
   async function fetchClothes() {
     try {
       const res = await axios.get("http://localhost:5000/api/clothes");
@@ -52,18 +54,24 @@ export function Cloths({ cloths, setClothes }) {
         {types.map((t) => (
           <p
             key={t}
-            onClick={() =>
+            className={`filter-option ${t === activeType ? "active" : ""}`}
+            onClick={() => {
+              setActiveType(t);
               t === "All"
                 ? fetchClothes()
-                : filterClothes("type", t.toLowerCase())
-            }
+                : filterClothes("type", t.toLowerCase());
+            }}
           >
             {t}
           </p>
         ))}
 
         {colors.map((c) => (
-          <p key={c} onClick={() => filterClothes("color", c.toLowerCase())}>
+          <p
+            key={c}
+            className="filter-option"
+            onClick={() => filterClothes("color", c.toLowerCase())}
+          >
             {c}
           </p>
         ))}
