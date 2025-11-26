@@ -38,7 +38,7 @@
   border-radius: 18px;
   background-color: rgba(34, 14, 81, 0.7);
   border: none;
-  box-shadow: 0px 0px 4px gold;
+  box-shadow: 0px 0px 4px rgba(255, 215, 0,0.5);
   width: 100px;
   margin-left: 40px;
 }
@@ -54,4 +54,83 @@
 .nav-bar a:hover {
   color: gold;
   transform: translateY(-2px);
+}
+.nav-bar.admin-nav {
+  background: none;
+  border-bottom: none;
+  height: auto;
+  backdrop-filter: none;
+}
+/* Admin sidebar */
+.dashboard-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: rgba(7, 15, 27,0.4);
+  border-right: 1px solid #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 9px;
+  gap: 20px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.dashboard-sidebar .sidebar-contents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  text-align: center;
+}
+
+.dashboard-sidebar .sidebar-contents a {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+  padding: 10px 10px;
+  color: #cfd8dc;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dashboard-sidebar .sidebar-contents a:hover {
+  background-color: rgba(173, 216, 230, 0.2); 
+  color: #00bfff;
+}
+
+.dashboard-sidebar .sidebar-contents button {
+  margin-top: 30px;
+  width: 80%;
+  padding: 10px 1px;
+  border-radius: 8px;
+  border: none;
+  background-color: #080a3d;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow:none;
+  border: 1px solid blue;
+}
+
+.dashboard-sidebar .sidebar-contents button:hover {
+  background-color: #1a0e57;
+}
+
+.dashboard-sidebar .sidebar-contents a,
+.dashboard-sidebar .sidebar-contents button {
+  font-size: 14px;
+}
+
+.dashboard-sidebar .sidebar-contents a.active {
+  background-color: rgba(0, 191, 255, 0.2);
+  color: #00bfff;
+}
+.sidebar-contents span{
 }

@@ -73,21 +73,52 @@ export function ManageCloths({ cloths, setClothes }) {
   }
 
   return (
-    <div>
+    <div className="manage-cloths">
+      <button className="add-button" onClick={() => setAddIsOpen(true)}>
+        Add Cloth
+      </button>
       {addIsOpen && (
         <form className="cloth-form" onSubmit={handleSubmit}>
-          <button type="button" onClick={() => setAddIsOpen(false)}>×</button>
+          <button
+            type="button"
+            className="close-button"
+            onClick={() => setAddIsOpen(false)}
+          >
+            ×
+          </button>
 
-          <input type="url" name="image" placeholder="Image" onChange={handleChange} />
-          <input type="text" name="description" placeholder="Description" onChange={handleChange} />
-          <input type="number" name="price" placeholder="Price" onChange={handleChange} />
-          <input type="number" name="size" placeholder="Size" onChange={handleChange} />
+          <h2>Add New Cloth</h2>
+
+          <input
+            type="url"
+            name="image"
+            placeholder="Image URL"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="size"
+            placeholder="Size"
+            onChange={handleChange}
+          />
 
           <select name="type" onChange={handleChange}>
             <option value="">Type</option>
             <option value="wedding">Wedding</option>
             <option value="business">Business</option>
-            <option value="vintage">vintage</option>
+            <option value="vintage">Vintage</option>
             <option value="casual">Casual</option>
           </select>
 
@@ -99,24 +130,52 @@ export function ManageCloths({ cloths, setClothes }) {
             <option value="blue">Blue</option>
           </select>
 
-          <button>Add</button>
+          <button className="submit-button">Add</button>
         </form>
       )}
 
       {editIsOpen && (
         <form className="cloth-form" onSubmit={handleUpdate}>
-          <button type="button" onClick={() => setEditIsOpen(false)}>×</button>
+          <button
+            type="button"
+            className="close-button"
+            onClick={() => setEditIsOpen(false)}
+          >
+            ×
+          </button>
 
-          <input type="url" name="image" value={clothForm.image} onChange={handleChange} />
-          <input type="text" name="description" value={clothForm.description} onChange={handleChange} />
-          <input type="number" name="price" value={clothForm.price} onChange={handleChange} />
-          <input type="number" name="size" value={clothForm.size} onChange={handleChange} />
+          <h2>Edit Cloth</h2>
+
+          <input
+            type="url"
+            name="image"
+            value={clothForm.image}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="description"
+            value={clothForm.description}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="price"
+            value={clothForm.price}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="size"
+            value={clothForm.size}
+            onChange={handleChange}
+          />
 
           <select name="type" value={clothForm.type} onChange={handleChange}>
             <option value="">Type</option>
             <option value="wedding">Wedding</option>
             <option value="business">Business</option>
-            <option value="vintage">vintage</option>
+            <option value="vintage">Vintage</option>
             <option value="casual">Casual</option>
           </select>
 
@@ -128,22 +187,24 @@ export function ManageCloths({ cloths, setClothes }) {
             <option value="blue">Blue</option>
           </select>
 
-          <button>Update</button>
+          <button className="submit-button">Update</button>
         </form>
       )}
 
       <div className="admin-cloth-container">
         {cloths.map((cloth) => (
           <div className="cloth-box" key={cloth._id}>
-            <img src={cloth.image} />
+            <img src={cloth.image} alt={cloth.description} />
             <p>{cloth.description}</p>
             <p>Type: {cloth.type}</p>
             <p>Color: {cloth.color}</p>
             <p>Size: {cloth.size}</p>
             <p>{cloth.price} ETB</p>
 
-            <button onClick={() => openEdit(cloth)}>edit</button>
-            <button onClick={() => deleteCloth(cloth._id)}>delete</button>
+            <button onClick={() => openEdit(cloth)} className="edit-button">
+              Edit
+            </button>
+            <button onClick={() => deleteCloth(cloth._id)}>Delete</button>
           </div>
         ))}
       </div>

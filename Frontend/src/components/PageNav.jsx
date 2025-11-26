@@ -13,17 +13,22 @@ export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
   };
 
   return (
-    <nav className="nav-bar">
-      <NavLink to="/">
-        <span>Suit Craft</span>
-      </NavLink>
+    <nav
+      className={`nav-bar ${isLoggedIn && role === "admin" ? "admin-nav" : ""}`}
+    >
+      {role !== "admin" && (
+        <NavLink to="/">
+          <span>Suit Craft</span>
+        </NavLink>
+      )}
 
       <ul>
         {isLoggedIn && role === "admin" ? (
-          // Admin sidebar
           <li>
             <div className="dashboard-sidebar">
               <div className="sidebar-contents">
+                <span>Suit Craft</span>
+
                 <NavLink to="/dashboard">Dashboard</NavLink>
                 <NavLink to="/manage-cloths">Manage cloths</NavLink>
                 <NavLink to="/orders-in">Orders in</NavLink>
@@ -38,7 +43,6 @@ export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
             </div>
           </li>
         ) : (
-          // Non-admin users
           <>
             <li>
               <NavLink to="/cloths">Cloths</NavLink>
