@@ -177,4 +177,69 @@
 /*orders in*/
 .orders-in {
   margin-left: 300px;
+  padding: 20px;
+}
+
+.orders-in h1 {
+  color: #136d71;
+  margin-bottom: 20px;
+}
+
+.order {
+  padding: 15px 0;
+}
+
+.order-item {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.15);
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item img {
+  border-radius: 8px;
+  width: 100px;
+  height: auto;
+}
+
+.accept-btn,
+.reject-btn {
+  padding: 6px 14px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s ease;
+  font-size: 14px;
+}
+
+.accept-btn {
+  background-color: #136d71;
+  color: white;
+}
+
+.reject-btn {
+  background-color: #8b0606;
+  color: white;
+  margin-left: 10px;
+}
+
+.accept-btn:hover {
+  background-color: #0f575b;
+}
+
+.reject-btn:hover {
+  background-color: #c70303;
+}
+
+.order h3 {
+  color: #0f575b;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
