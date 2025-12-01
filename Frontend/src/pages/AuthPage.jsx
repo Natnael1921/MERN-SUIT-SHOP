@@ -69,11 +69,14 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
             User
           </button>
           <button
-            className={role === "owner" ? "active" : ""}
-            onClick={() => setRole("admin")}
+            className={role === "admin" ? "active" : ""}
+            onClick={() => {
+              setRole("admin");
+              setIsRegistered(true);
+            }}
             type="button"
           >
-            admin
+            Admin
           </button>
         </div>
         {!isRegistered && (
@@ -111,7 +114,10 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
           {isRegistered ? "Don't have an account?" : "Already have an account?"}
           <span
             className="toggle-link"
-            onClick={() => setIsRegistered(!isRegistered)}
+            onClick={() => {
+              if (role === "admin") return;
+              setIsRegistered(!isRegistered);
+            }}
           >
             {isRegistered ? " Register" : " Login"}
           </span>

@@ -8,7 +8,11 @@ export const register = async (req, res) => {
   if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
-
+if (role === "admin") {
+    return res
+      .status(403)
+      .json({ message: "Admin registration is not allowed" });
+  }
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser)
@@ -20,7 +24,7 @@ export const register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role: role || "user", // default to user
+      role: "user", 
     });
 
     await newUser.save();
