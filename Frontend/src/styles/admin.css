@@ -1,24 +1,27 @@
 /*manage cloths */
 .cloth-form {
-  display: flex;
-  flex-direction: column;
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  margin: 0 !important;
   width: 350px;
-  gap: 12px;
+  z-index: 5000;
+
+  background: #f9f9f9;
   padding: 20px;
-  border: 1px solid #ccc;
   border-radius: 12px;
-  background-color: #f9f9f9;
-  position: relative;
-  margin: 20px auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  z-index: 100;
+  box-shadow: 0 5px 40px rgba(0,0,0,0.3);
 }
+
 .cloth-form h2 {
   text-align: center;
   margin-bottom: 10px;
   color: #136d71;
 }
 .admin-cloth-container {
+  padding-top: 100px;
   margin-left: 300px;
   z-index: 100;
   display: flex;
@@ -27,33 +30,39 @@
 }
 
 .add-button {
-  margin-left: 300px;
+  position: fixed;
+  top: 40px;
+  left: 300px;
+  z-index: 2000;
   cursor: pointer;
-  margin-left: 300px;
-  margin-top: 30px;
-  margin-bottom: 30px;
   border: none;
   width: 200px;
   font-weight: bold;
   background-color: gold;
   border-radius: 10px;
   height: 40px;
-  z-index: 1000;
 }
-.edit-button{
-    background-color: #136d71;
-    margin: 10px;
+.add-button:hover{
+  background-color: #0f575b;
+  transition: all 0.4s ease-in-out;
+}
+.edit-button {
+  background-color: #136d71;
+  margin: 10px;
 }
 .close-button {
-  width: 40px;
-  height: 30px;
-  margin-left: 250px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background-color: #e80404;
   border: none;
   border-radius: 5px;
   color: white;
   cursor: pointer;
-  z-index: 10000;
+  width: 35px;
+  height: 30px;
+  font-size: 18px;
+  z-index: 6000;
 }
 
 .cloth-form input {
@@ -100,12 +109,22 @@
 .submit-button:hover {
   background-color: #e6c200;
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1);  
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+}
 /*dashboared*/
 .dashboard {
   margin: 10px 0 0 270px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 30px;
 }
 .dashboard-upper {
   display: flex;
@@ -114,7 +133,8 @@
 }
 .dashboard-total-clothes {
   width: 500px;
-  border: 1px solid rgb(172, 148, 15);
+  border: 1.5px solid rgba(19, 109, 113, 0.3);
+  border-radius: 6px;
   height: 280px;
   text-align: center;
   box-shadow: 0px 0px 100px BLACK;
@@ -124,7 +144,9 @@
 }
 .dashboard-total-users {
   width: 500px;
-  border: 1px solid rgb(172, 148, 15);
+  border: 1.5px solid rgba(19, 109, 113, 0.3);
+  border-radius: 6px;
+  margin-right: 10px;
   height: 280px;
   text-align: center;
   box-shadow: 0px 0px 100px BLACK;
@@ -138,7 +160,8 @@
 }
 .dashboard-orders {
   width: 999px;
-  border: 1px solid rgb(172, 148, 15);
+  border: 1.5px solid rgba(19, 109, 113, 0.3);
+  border-radius: 6px;
   height: 250px;
   text-align: center;
   display: flex;
@@ -194,7 +217,7 @@
   gap: 20px;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px dashed rgba(0,0,0,0.15);
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
 }
 
 .order-item:last-child {

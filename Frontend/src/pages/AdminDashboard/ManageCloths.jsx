@@ -33,7 +33,10 @@ export function ManageCloths({ cloths, setClothes }) {
   // Add cloth
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5000/api/clothes", clothForm);
+    const res = await axios.post(
+      "http://localhost:5000/api/clothes",
+      clothForm
+    );
     alert("Cloth added!");
     setAddIsOpen(false);
     setClothes((prev) => [...prev, res.data.cloth]);
@@ -74,6 +77,7 @@ export function ManageCloths({ cloths, setClothes }) {
 
   return (
     <div className="manage-cloths">
+      {(addIsOpen || editIsOpen) && <div className="overlay"></div>}
       <button className="add-button" onClick={() => setAddIsOpen(true)}>
         Add Cloth
       </button>
