@@ -5,6 +5,7 @@ import clothRoutes from "./routes/cloth.route.js";
 import authRoutes from "./routes/auth.route.js";
 import cartRoutes from "./routes/cart.route.js";
 import orderRoutes from "./routes/order.route.js";
+import statsRoutes from "./routes/stats.route.js";
 
 import dotenv from "dotenv";
 import cors from "cors";
@@ -27,6 +28,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/clothes", clothRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/stats", statsRoutes);
 
 app.listen(5000, () => {
   console.log("server connected at: http://localhost:5000");

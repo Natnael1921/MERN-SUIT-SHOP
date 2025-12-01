@@ -44,3 +44,27 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const getRecentOrders = async (req, res) => {
+  try {
+    const recentOrders = await Order.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate("items.clothId", "description"); 
+    const suitNames = recentOrders.flatMap(order =>
+      order.items.map(item => item.clothId?.description)
+    );
+
+    res.status(200).json({
+      success: true,
+      data: suitNames,
+    });
+
+  } catch (err) {
+    console.error("Error fetching recent orders:", err.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: err.message,
+    });
+  }
+};

@@ -1,0 +1,118 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #120a33;
+  padding-top: 50px;
+}
+
+/* AUTH CARD */
+.auth-form {
+  width: 330px;
+  padding: 1.8rem 1.5rem;
+  background: rgba(25, 11, 59, 0.82); 
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  animation: fadeIn 0.35s ease-out;
+}
+
+/* FORM TITLE */
+.auth-form h3 {
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+/* INPUTS */
+.auth-form input {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: #f2f2f2;
+  font-size: 0.95rem;
+  transition: 0.2s;
+}
+
+.auth-form input::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+
+.auth-form input:focus {
+  border-color: #6d8cff;
+  background: rgba(255,255,255,0.12);
+  outline: none;
+}
+
+/* ROLE TOGGLE */
+.role-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.role-toggle button {
+  padding: 5px 15px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.12);
+  color: #eaeaea;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.25s;
+}
+
+.role-toggle button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.role-toggle .active {
+  background: #6d8cff;
+  border-color: #6d8cff;
+  color: white;
+}
+
+/* SUBMIT BUTTON */
+.auth-button {
+  padding: 10px;
+  background: #6d8cff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.auth-button:hover {
+  background: #5673e6;
+}
+
+/* TOGGLE TEXT */
+.auth-toggle {
+  text-align: center;
+  color: #cfcfcf;
+  font-size: 0.9rem;
+}
+
+.toggle-link {
+  color: #6d8cff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
