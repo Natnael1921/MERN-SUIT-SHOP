@@ -1,41 +1,44 @@
 import React from "react";
-import Cloth from "../../../../Backend/node_modules/models/cloth.model";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import "../../styles/admin.css";
+import { useState,useEffect } from "react";
+import axios from "axios";
 
-const data = [
-  { name: "Wedding", value: 20 },
-  { name: "Business", value: 10 },
-  { name: "Old Styles", value: 5 },
-];
-
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658"];
+const COLORS = ["#8884d8", "#82ca9d", "#ffc658","#948594"];
 export function Dashboard() {
+  const [data, setData] = useState([]);
+ useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await axios.get("http://localhost:5000/api/clothes/stats");
+        console.log("Stats response:", res.data);
+        if (res.data.success) setData(res.data.data);
+      } catch (err) {
+        console.error("Error fetching cloth stats:", err);
+      }
+    }
+    fetchStats();
+  }, []);
   return (
     <div className="dashboard">
       <div className="dashboard-upper">
         <div className="dashboard-total-clothes">
           <h2>Total Clothes</h2>
-          <PieChart width={350} height={250}>
+           <PieChart width={450} height={210}>
             <Pie
               data={data}
-              dataKey="value"
-              nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={70}
-              fill="#8884d8"
+              outerRadius={80}
+              dataKey="value"
               label
             >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
+              {data.map((entry, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />
-            <Legend layout="vertical" verticalAlign="middle" align="right" />
+            <Legend />
           </PieChart>
         </div>
         <div className="dashboard-total-users">

@@ -1,7 +1,8 @@
 import express from "express";
-import { addCloths, deleteCloths, getCloths,updateCloth } from "../controllers/cloth.controller.js";
+import { addCloths, deleteCloths, getCloths,updateCloth,getClothStats } from "../controllers/cloth.controller.js";
 
 const router=express.Router();
+router.get("/stats", getClothStats);
 
 router.post("/",addCloths);
 router.get("/",getCloths);

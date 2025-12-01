@@ -74,3 +74,32 @@ export async function updateCloth(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 }
+// Get count of clothes by type
+export async function getClothStats(req, res) {
+  try {
+    const stats = await Cloth.aggregate([
+      {
+        $match: {
+          type: { $nin: ["", null] }  
+        }
+      },
+      {
+        $group: {
+          _id: "$type",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const formatted = stats.map(stat => ({
+      name: stat._id,
+      value: stat.count
+    }));
+
+    res.status(200).json({ success: true, data: formatted });
+  } catch (error) {
+    console.error("Error fetching cloth stats:", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
