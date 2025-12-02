@@ -34,7 +34,12 @@
   font-weight: bold;
   font-size: 20px;
 }
-
+.home-page .section-one button:hover{
+  background-color: #136d71;
+  cursor: pointer;
+  transition: all 1s ease-in-out;
+  color: #fafafa;
+}
 .landing-page-image {
   position: absolute;
   right: 70px;

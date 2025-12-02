@@ -99,7 +99,7 @@ export function ManageCloths({ cloths, setClothes }) {
         Add Cloth
       </button>
       {addIsOpen && (
-        <form className="cloth-form" onSubmit={handleSubmit} data-aos="fade-up">
+        <form className="cloth-form" onSubmit={handleSubmit} >
           <button
             type="button"
             className="close-button"

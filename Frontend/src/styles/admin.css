@@ -21,7 +21,7 @@
   color: #136d71;
 }
 .admin-cloth-container {
-  padding-top: 100px;
+  padding-top: 70px;
   margin-left: 300px;
   z-index: 100;
   display: flex;
@@ -31,7 +31,7 @@
 
 .add-button {
   position: fixed;
-  top: 40px;
+  top: 20px;
   left: 300px;
   z-index: 2000;
   cursor: pointer;

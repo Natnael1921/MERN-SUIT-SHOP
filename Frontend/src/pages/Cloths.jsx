@@ -84,7 +84,7 @@ export function Cloths({ cloths, setClothes }) {
             <p>Type: {cloth.description}</p>
             <p>Size: {cloth.size}</p>
             <p>Price: {cloth.price} ETB</p>
-            <button data-aos="fade-up" onClick={() => AddToCart(cloth)}>Add to cart</button>
+            <button onClick={() => AddToCart(cloth)}>Add to cart</button>
           </div>
         ))}
       </div>
