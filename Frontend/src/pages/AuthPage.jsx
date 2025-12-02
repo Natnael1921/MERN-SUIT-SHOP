@@ -4,6 +4,7 @@ import { PageNav } from "../components/PageNav";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../styles/auth.css";
+import api from "../api";
 export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
@@ -24,8 +25,8 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
     e.preventDefault();
     try {
       if (!isRegistered) {
-        const res = await axios.post(
-          "http://localhost:5000/api/auth/register",
+        const res = await api.post(
+          "/api/auth/register",
           { ...form, role }
         );
 
@@ -33,7 +34,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
         setIsRegistered(true);
         navigate("/cloths");
       } else {
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
+        const res = await api.post("/api/auth/login", {
           email: form.email,
           password: form.password,
           role,

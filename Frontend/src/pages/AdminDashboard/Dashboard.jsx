@@ -3,6 +3,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import "../../styles/admin.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../api";
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#948594"];
 export function Dashboard() {
@@ -14,7 +15,7 @@ export function Dashboard() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const res = await axios.get("http://localhost:5000/api/clothes/stats");
+        const res = await api.get("/api/clothes/stats");
         console.log("Stats response:", res.data);
         if (res.data.success) setData(res.data.data);
       } catch (err) {
@@ -23,8 +24,8 @@ export function Dashboard() {
     }
     async function fetchDashboardStats() {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/stats/dashboard"
+        const res = await api.get(
+          "/api/stats/dashboard"
         );
         if (res.data.success) {
           setTotalUsers(res.data.totalUsers);
@@ -36,7 +37,7 @@ export function Dashboard() {
     }
     async function fetchRecentOrders() {
       try {
-        const res = await axios.get("http://localhost:5000/api/orders/recent");
+        const res = await api.get("/api/orders/recent");
         if (res.data.success) setRecentOrders(res.data.data);
       } catch (err) {
         console.error("Error fetching recent orders:", err);
@@ -76,7 +77,7 @@ export function Dashboard() {
           </h1>
         </div>
       </div>
-      <div className="dashboard-orders" data-aos="fade-up">
+      <div className="dashboard-orders">
         <div className="recent-orders">
           <h2 data-aos="fade-up">Recent Orders</h2>
           {recentOrders.map((name, idx) => (

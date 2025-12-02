@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "../../styles/admin.css";
-
+import api from "../../api";
 export function ManageCloths({ cloths, setClothes }) {
   const [clothForm, setClothForm] = useState({
     image: "",
@@ -19,7 +19,7 @@ export function ManageCloths({ cloths, setClothes }) {
 
   useEffect(() => {
     async function fetchClothes() {
-      const res = await axios.get("http://localhost:5000/api/clothes");
+      const res = await api.get("/api/clothes");
       setClothes(res.data.data);
     }
     fetchClothes();
@@ -36,8 +36,8 @@ export function ManageCloths({ cloths, setClothes }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/clothes",
+      const res = await api.post(
+        "/api/clothes",
         clothForm
       );
 
@@ -61,8 +61,8 @@ export function ManageCloths({ cloths, setClothes }) {
   async function handleUpdate(e) {
     e.preventDefault();
     try {
-      const res = await axios.put(
-        `http://localhost:5000/api/clothes/${editId}`,
+      const res = await api.put(
+        `/api/clothes/${editId}`,
         clothForm
       );
 
@@ -80,7 +80,7 @@ export function ManageCloths({ cloths, setClothes }) {
   // Delete cloth
   async function deleteCloth(id) {
     try {
-      await axios.delete(`http://localhost:5000/api/clothes/${id}`);
+      await api.delete(`/api/clothes/${id}`);
       setClothes((prev) => prev.filter((cloth) => cloth._id !== id));
       toast.info("Cloth deleted!");
     } catch (err) {

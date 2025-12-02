@@ -2,13 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../styles/admin.css";
 import { toast } from "react-toastify";
+import api from "../../api";
 export function OrdersIn() {
   const [ordersIn, setOrdersIn] = useState([]);
 
   useEffect(() => {
     async function getAllOrders() {
       try {
-        const res = await axios.get("http://localhost:5000/api/orders");
+        const res = await api.get("/api/orders");
         setOrdersIn(res.data);
       } catch (err) {
         console.error("Error fetching orders:", err.message);
@@ -19,10 +20,7 @@ export function OrdersIn() {
   }, []);
   async function updateStatus(orderId, status) {
     try {
-      const res = await axios.put(
-        `http://localhost:5000/api/orders/status/${orderId}`,
-        { status }
-      );
+      const res = await api.put(`/api/orders/status/${orderId}`, { status });
       setOrdersIn((prev) =>
         prev.map((o) => (o._id === orderId ? res.data : o))
       );
@@ -52,7 +50,6 @@ export function OrdersIn() {
               <p>Price: ${item.price}</p>
               <p>Quantity: {item.quantity}</p>
               <button
-                data-aos="fade-up"
                 onClick={() => updateStatus(order._id, "accepted")}
                 className="accept-btn"
               >
@@ -60,7 +57,6 @@ export function OrdersIn() {
               </button>
 
               <button
-                data-aos="fade-up"
                 onClick={() => updateStatus(order._id, "rejected")}
                 className="reject-btn"
               >

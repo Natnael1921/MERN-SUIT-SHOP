@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../styles/cloths.css";
 import { toast } from "react-toastify";
+import api from "../api";
 
 export function Cloths({ cloths, setClothes }) {
   const types = ["All", "Wedding", "Business", "Vintage"];
@@ -9,7 +10,7 @@ export function Cloths({ cloths, setClothes }) {
   const [activeType, setActiveType] = useState("All");
   async function fetchClothes() {
     try {
-      const res = await axios.get("http://localhost:5000/api/clothes");
+      const res = await api.get("/api/clothes");
       setClothes(res.data.data);
     } catch (error) {
       console.error("Error fetching clothes", error);
@@ -30,7 +31,7 @@ export function Cloths({ cloths, setClothes }) {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/cart", {
+      const res = await api.post("/api/cart", {
         userId,
         clothId: cloth._id,
         quantity: 1,
@@ -43,8 +44,8 @@ export function Cloths({ cloths, setClothes }) {
     }
   }
   function filterClothes(key, value) {
-    axios
-      .get(`http://localhost:5000/api/clothes?${key}=${value}`)
+    api
+      .get(`/api/clothes?${key}=${value}`)
       .then((res) => setClothes(res.data.data))
       .catch(() => toast.error("Filtering error"));
   }

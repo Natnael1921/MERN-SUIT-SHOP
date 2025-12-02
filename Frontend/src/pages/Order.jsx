@@ -3,15 +3,14 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import "../styles/orders.css";
+import api from "../api";
 export function Order() {
   const [orders, setOrders] = useState([]);
   const userId = localStorage.getItem("userId");
   useEffect(() => {
     async function fetchMyOrders() {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/orders/${userId}`
-        );
+        const res = await api.get(`/api/orders/${userId}`);
         setOrders(res.data);
       } catch (error) {
         alert("error fetching orders");
@@ -24,7 +23,11 @@ export function Order() {
   return (
     <div className="orders-page" data-aos="fade-up">
       {orders.map((order, orderIndex) => (
-        <div key={order._id || orderIndex} className="order-box" data-aos="fade-up">
+        <div
+          key={order._id || orderIndex}
+          className="order-box"
+          data-aos="fade-up"
+        >
           {order.items.map((item, itemIndex) => (
             <div key={itemIndex} className="order-item">
               <img src={item.image} alt="order item" />

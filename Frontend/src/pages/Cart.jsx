@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/cart.css";
+import api from "../api";
 export function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem("userId");
   useEffect(() => {
     async function fetchCartItems() {
       try {
-        const res = await axios.get(`http://localhost:5000/api/cart/${userId}`);
+        const res = await api.get(`/api/cart/${userId}`);
         setCartItems(res.data);
       } catch (error) {
         console.error("Error fetching cart items", error);
@@ -29,7 +30,7 @@ export function Cart() {
               style={{ marginRight: 8 }}
               onClick={async () => {
                 try {
-                  await axios.delete(`http://localhost:5000/api/cart/${id}`);
+                  await api.delete(`/api/cart/${id}`);
                   setCartItems((prev) =>
                     prev.filter((item) => item._id !== id)
                   );
@@ -73,8 +74,8 @@ export function Cart() {
                     },
                   ],
                 };
-                axios
-                  .post("http://localhost:5000/api/orders/create", body)
+                api
+                  .post("/api/orders/create", body)
                   .then((res) => {
                     if (res.status === 201)
                       toast.success("Order placed successfully");
