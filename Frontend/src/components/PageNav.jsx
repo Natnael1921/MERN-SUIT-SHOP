@@ -10,6 +10,7 @@ export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     navigate("/");
+    localStorage.removeItem("userId");  
   };
 
   return (

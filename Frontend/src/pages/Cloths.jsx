@@ -1,8 +1,8 @@
 import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/cloths.css";
-import { useState } from "react";
+import { toast } from "react-toastify";
+
 export function Cloths({ cloths, setClothes }) {
   const types = ["All", "Wedding", "Business", "Vintage"];
   const colors = ["Black", "White", "Brown", "Blue"];
@@ -10,10 +10,10 @@ export function Cloths({ cloths, setClothes }) {
   async function fetchClothes() {
     try {
       const res = await axios.get("http://localhost:5000/api/clothes");
-      console.log("Fetched clothes:", res.data);
       setClothes(res.data.data);
     } catch (error) {
-      console.error("error fetching clothes", error);
+      console.error("Error fetching clothes", error);
+      toast.error("Failed to fetch clothes");
     }
   }
   useEffect(() => {
@@ -21,32 +21,32 @@ export function Cloths({ cloths, setClothes }) {
   }, []);
 
   async function AddToCart(cloth) {
+    const userId = localStorage.getItem("userId");
+
+    // NOT LOGGED IN
+    if (!userId) {
+      toast.error("Please login first to add items to cart");
+      return;
+    }
+
     try {
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-        console.log("UserId from localStorage:", userId);
-
-        return;
-      }
-
-      const body = {
+      const res = await axios.post("http://localhost:5000/api/cart", {
         userId,
         clothId: cloth._id,
         quantity: 1,
-      };
+      });
 
-      const res = await axios.post("http://localhost:5000/api/cart", body);
-      console.log("Added to cart:", res.data);
-      alert("added to cart successfully");
+      toast.success("Added to cart successfully");
     } catch (error) {
       console.error("Error adding to cart", error);
+      toast.error("Error adding to cart");
     }
   }
   function filterClothes(key, value) {
     axios
       .get(`http://localhost:5000/api/clothes?${key}=${value}`)
       .then((res) => setClothes(res.data.data))
-      .catch((err) => console.log(err));
+      .catch(() => toast.error("Filtering error"));
   }
   return (
     <div className="cloth-page">
@@ -82,8 +82,8 @@ export function Cloths({ cloths, setClothes }) {
           <div className="cloth-box" key={cloth._id}>
             <img src={cloth.image} />
             <p>Type: {cloth.description}</p>
-            <p>size: {cloth.size}</p>
-            <p>price: {cloth.price} ETB</p>
+            <p>Size: {cloth.size}</p>
+            <p>Price: {cloth.price} ETB</p>
             <button onClick={() => AddToCart(cloth)}>Add to cart</button>
           </div>
         ))}

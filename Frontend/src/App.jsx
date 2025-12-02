@@ -12,14 +12,26 @@ import { Cart } from "./pages/Cart";
 import { Order } from "./pages/Order";
 import { Dashboard } from "./pages/AdminDashboard/Dashboard";
 import { OrdersIn } from "./pages/AdminDashboard/OrdersIn";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(localStorage.getItem("role") || "user");
   const [cloths, setClothes] = useState([]);
-  const [orders, setOrders] = useState([]);
   return (
     <BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <PageNav
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
@@ -51,7 +63,7 @@ export default function App() {
           element={<ManageCloths cloths={cloths} setClothes={setClothes} />}
         />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/orders-in" element={<OrdersIn/>}/>
+        <Route path="/orders-in" element={<OrdersIn />} />
       </Routes>
     </BrowserRouter>
   );

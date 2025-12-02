@@ -1,7 +1,7 @@
 import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/cart.css";
 export function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -12,84 +12,111 @@ export function Cart() {
         const res = await axios.get(`http://localhost:5000/api/cart/${userId}`);
         setCartItems(res.data);
       } catch (error) {
-        alert("Error ");
-        console.error("Error fetching cartts", error);
+        console.error("Error fetching cart items", error);
+        toast.error("Error fetching cart items");
       }
     }
     fetchCartItems();
   }, []);
-  async function deleteCartItem(id) {
-    try {
-      const res = await axios.delete(`http://localhost:5000/api/cart/${id}`);
-      setCartItems((prev) => prev.filter((item) => item._id !== id));
 
-      console.log("deleted successfully");
-      alert("deleted successfully");
-    } catch (error) {
-      console.error("error deleting item", error);
-    }
-  }
+  const deleteCartItem = (id) => {
+    toast(
+      ({ closeToast }) => (
+        <div>
+          <p>Are you sure you want to delete this item?</p>
+          <div style={{ marginTop: 8 }}>
+            <button
+              style={{ marginRight: 8 }}
+              onClick={async () => {
+                try {
+                  await axios.delete(`http://localhost:5000/api/cart/${id}`);
+                  setCartItems((prev) => prev.filter((item) => item._id !== id));
+                  toast.success("Deleted successfully");
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Error deleting item");
+                }
+                closeToast();
+              }}
+            >
+              Yes
+            </button>
+            <button onClick={closeToast}>No</button>
+          </div>
+        </div>
+      ),
+      { autoClose: false } 
+    );
+  };
 
-  async function handleOrder(item) {
-    try {
-      const body = {
-        userId,
-        items: [
-          {
-            clothId: item.clothId._id,
-            image: item.clothId.image,
-            description: item.clothId.description,
-            price: item.clothId.price,
-            size: item.clothId.size,
-            quantity: item.quantity || 1,
-          },
-        ],
-      };
-      const res = await axios.post(
-        "http://localhost:5000/api/orders/create",
-        body
-      );
-      if (res.status === 201) {
-        alert("Order placed successfully");
-      } else {
-        alert("Failed to place order");
-      }
-    } catch (error) {
-      console.error(
-        "Error ordering:",
-        error.response ? error.response.data : error.message
-      );
-      alert("Error placing order. Please try again later.");
-    }
-  }
+  const handleOrder = (item) => {
+    toast(
+      ({ closeToast }) => (
+        <div>
+          <p>Are you sure you want to place this order?</p>
+          <div style={{ marginTop: 8 }}>
+            <button
+              style={{ marginRight: 8 }}
+              onClick={() => {
+                const body = {
+                  userId,
+                  items: [
+                    {
+                      clothId: item.clothId._id,
+                      image: item.clothId.image,
+                      description: item.clothId.description,
+                      price: item.clothId.price,
+                      size: item.clothId.size,
+                      quantity: item.quantity || 1,
+                    },
+                  ],
+                };
+                axios
+                  .post("http://localhost:5000/api/orders/create", body)
+                  .then((res) => {
+                    if (res.status === 201) toast.success("Order placed successfully");
+                    else toast.error("Failed to place order");
+                  })
+                  .catch((error) => {
+                    console.error("Error placing order", error);
+                    toast.error("Error placing order. Try again later");
+                  });
+                closeToast();
+              }}
+            >
+              Yes
+            </button>
+            <button onClick={closeToast}>No</button>
+          </div>
+        </div>
+      ),
+      { autoClose: false }
+    );
+  };
 
   return (
     <div className="cart-page">
-      {cartItems.map((item) =>
-        item.clothId ? (
-          <div className="cart-box" key={item._id}>
-            <img src={item.clothId.image} alt="cart-image" />
-            <div>
-              <p>Type :  {item.clothId.description}</p>
-              <p>Size : {item.clothId.size}</p>
-              <p>Price : {item.clothId.price}</p>
+      {cartItems.map(
+        (item) =>
+          item.clothId && (
+            <div className="cart-box" key={item._id}>
+              <img src={item.clothId.image} alt="cart-item" />
+              <div>
+                <p>Type: {item.clothId.description}</p>
+                <p>Size: {item.clothId.size}</p>
+                <p>Price: {item.clothId.price}</p>
 
-              <button
-                className="order-button"
-                onClick={() => handleOrder(item)}
-              >
-                order
-              </button>
-              <button
-                className="delete-button"
-                onClick={() => deleteCartItem(item._id)}
-              >
-                Delete
-              </button>
+                <button className="order-button" onClick={() => handleOrder(item)}>
+                  Order
+                </button>
+                <button className="delete-button" onClick={() => deleteCartItem(item._id)}>
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ) : null
+          )
       )}
+      <ToastContainer position="top-right" />
     </div>
   );
 }

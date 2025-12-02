@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../styles/admin.css";
+import { toast } from "react-toastify";
 export function OrdersIn() {
   const [ordersIn, setOrdersIn] = useState([]);
 
@@ -11,7 +12,7 @@ export function OrdersIn() {
         setOrdersIn(res.data);
       } catch (err) {
         console.error("Error fetching orders:", err.message);
-        alert("Error fetching orders");
+        toast.error("Error fetching orders");
       }
     }
     getAllOrders();
@@ -25,8 +26,14 @@ export function OrdersIn() {
       setOrdersIn((prev) =>
         prev.map((o) => (o._id === orderId ? res.data : o))
       );
+
+      if (status === "accepted") {
+        toast.success("Order accepted!");
+      } else {
+        toast.info("Order rejected");
+      }
     } catch (err) {
-      alert("Failed to update order status");
+      toast.error("Failed to update order status");
       console.error(err);
     }
   }

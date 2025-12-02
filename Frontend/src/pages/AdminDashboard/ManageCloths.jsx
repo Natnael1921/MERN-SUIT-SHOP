@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";   
 import "../../styles/admin.css";
+
 export function ManageCloths({ cloths, setClothes }) {
   const [clothForm, setClothForm] = useState({
     image: "",
@@ -33,13 +35,19 @@ export function ManageCloths({ cloths, setClothes }) {
   // Add cloth
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await axios.post(
-      "http://localhost:5000/api/clothes",
-      clothForm
-    );
-    alert("Cloth added!");
-    setAddIsOpen(false);
-    setClothes((prev) => [...prev, res.data.cloth]);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/clothes",
+        clothForm
+      );
+
+      setAddIsOpen(false);
+      setClothes((prev) => [...prev, res.data.cloth]);
+
+      toast.success("Cloth added successfully!");   
+    } catch (err) {
+      toast.error("Failed to add cloth");
+    }
   }
 
   // Open edit form
@@ -62,17 +70,22 @@ export function ManageCloths({ cloths, setClothes }) {
         prev.map((c) => (c._id === editId ? res.data.cloth : c))
       );
 
-      alert("Updated successfully!");
       setEditIsOpen(false);
+      toast.success("Cloth updated successfully!");   
     } catch (err) {
-      alert("Update failed");
+      toast.error("Update failed!");  
     }
   }
 
   // Delete cloth
   async function deleteCloth(id) {
-    await axios.delete(`http://localhost:5000/api/clothes/${id}`);
-    setClothes((prev) => prev.filter((cloth) => cloth._id !== id));
+    try {
+      await axios.delete(`http://localhost:5000/api/clothes/${id}`);
+      setClothes((prev) => prev.filter((cloth) => cloth._id !== id));
+      toast.info("Cloth deleted!");   
+    } catch (err) {
+      toast.error("Delete failed!");
+    }
   }
 
   return (
@@ -93,30 +106,10 @@ export function ManageCloths({ cloths, setClothes }) {
 
           <h2>Add New Cloth</h2>
 
-          <input
-            type="url"
-            name="image"
-            placeholder="Image URL"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="description"
-            placeholder="Description"
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            name="price"
-            placeholder="Price"
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            name="size"
-            placeholder="Size"
-            onChange={handleChange}
-          />
+          <input type="url" name="image" placeholder="Image URL" onChange={handleChange} />
+          <input type="text" name="description" placeholder="Description" onChange={handleChange} />
+          <input type="number" name="price" placeholder="Price" onChange={handleChange} />
+          <input type="number" name="size" placeholder="Size" onChange={handleChange} />
 
           <select name="type" onChange={handleChange}>
             <option value="">Type</option>
@@ -150,30 +143,10 @@ export function ManageCloths({ cloths, setClothes }) {
 
           <h2>Edit Cloth</h2>
 
-          <input
-            type="url"
-            name="image"
-            value={clothForm.image}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="description"
-            value={clothForm.description}
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            name="price"
-            value={clothForm.price}
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            name="size"
-            value={clothForm.size}
-            onChange={handleChange}
-          />
+          <input type="url" name="image" value={clothForm.image} onChange={handleChange} />
+          <input type="text" name="description" value={clothForm.description} onChange={handleChange} />
+          <input type="number" name="price" value={clothForm.price} onChange={handleChange} />
+          <input type="number" name="size" value={clothForm.size} onChange={handleChange} />
 
           <select name="type" value={clothForm.type} onChange={handleChange}>
             <option value="">Type</option>

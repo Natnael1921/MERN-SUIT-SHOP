@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { PageNav } from "../components/PageNav";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../styles/auth.css";
 export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -27,7 +28,8 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
           "http://localhost:5000/api/auth/register",
           { ...form, role }
         );
-        alert("Registered successfully! Please login.");
+
+        toast.success("Registered successfully! Please login.");
         setIsRegistered(true);
         navigate("/cloths");
       } else {
@@ -41,7 +43,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
         localStorage.setItem("userId", res.data.user.id);
         console.log("Stored userId:", res.data.user.id);
 
-        alert("Login successful!");
+        toast.success("Login successful!");
         setIsLoggedIn(true);
         setRole(res.data.user.role);
         if (res.data.user.role === "user") {
@@ -52,7 +54,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
       }
     } catch (err) {
       console.error(err.response?.data?.message || err.message);
-      alert("Error occurred. Try again.");
+      toast.error(err.response?.data?.message || "Error occurred. Try again.");
     }
   }
   return (
@@ -103,10 +105,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
           onChange={handleChange}
         />
 
-        <button
-          className={!isRegistered ? "auth-button" : "auth-button"}
-          type="submit"
-        >
+        <button className="auth-button" type="submit">
           {isRegistered ? "Login" : "Register"}
         </button>
 
