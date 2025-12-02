@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";   
+import { toast } from "react-toastify";
 import "../../styles/admin.css";
 
 export function ManageCloths({ cloths, setClothes }) {
@@ -44,7 +44,7 @@ export function ManageCloths({ cloths, setClothes }) {
       setAddIsOpen(false);
       setClothes((prev) => [...prev, res.data.cloth]);
 
-      toast.success("Cloth added successfully!");   
+      toast.success("Cloth added successfully!");
     } catch (err) {
       toast.error("Failed to add cloth");
     }
@@ -71,9 +71,9 @@ export function ManageCloths({ cloths, setClothes }) {
       );
 
       setEditIsOpen(false);
-      toast.success("Cloth updated successfully!");   
+      toast.success("Cloth updated successfully!");
     } catch (err) {
-      toast.error("Update failed!");  
+      toast.error("Update failed!");
     }
   }
 
@@ -82,7 +82,7 @@ export function ManageCloths({ cloths, setClothes }) {
     try {
       await axios.delete(`http://localhost:5000/api/clothes/${id}`);
       setClothes((prev) => prev.filter((cloth) => cloth._id !== id));
-      toast.info("Cloth deleted!");   
+      toast.info("Cloth deleted!");
     } catch (err) {
       toast.error("Delete failed!");
     }
@@ -91,11 +91,15 @@ export function ManageCloths({ cloths, setClothes }) {
   return (
     <div className="manage-cloths">
       {(addIsOpen || editIsOpen) && <div className="overlay"></div>}
-      <button className="add-button" onClick={() => setAddIsOpen(true)}>
+      <button
+        className="add-button"
+        onClick={() => setAddIsOpen(true)}
+        data-aos="fade-up"
+      >
         Add Cloth
       </button>
       {addIsOpen && (
-        <form className="cloth-form" onSubmit={handleSubmit}>
+        <form className="cloth-form" onSubmit={handleSubmit} data-aos="fade-up">
           <button
             type="button"
             className="close-button"
@@ -106,10 +110,30 @@ export function ManageCloths({ cloths, setClothes }) {
 
           <h2>Add New Cloth</h2>
 
-          <input type="url" name="image" placeholder="Image URL" onChange={handleChange} />
-          <input type="text" name="description" placeholder="Description" onChange={handleChange} />
-          <input type="number" name="price" placeholder="Price" onChange={handleChange} />
-          <input type="number" name="size" placeholder="Size" onChange={handleChange} />
+          <input
+            type="url"
+            name="image"
+            placeholder="Image URL"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="size"
+            placeholder="Size"
+            onChange={handleChange}
+          />
 
           <select name="type" onChange={handleChange}>
             <option value="">Type</option>
@@ -143,10 +167,30 @@ export function ManageCloths({ cloths, setClothes }) {
 
           <h2>Edit Cloth</h2>
 
-          <input type="url" name="image" value={clothForm.image} onChange={handleChange} />
-          <input type="text" name="description" value={clothForm.description} onChange={handleChange} />
-          <input type="number" name="price" value={clothForm.price} onChange={handleChange} />
-          <input type="number" name="size" value={clothForm.size} onChange={handleChange} />
+          <input
+            type="url"
+            name="image"
+            value={clothForm.image}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="description"
+            value={clothForm.description}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="price"
+            value={clothForm.price}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="size"
+            value={clothForm.size}
+            onChange={handleChange}
+          />
 
           <select name="type" value={clothForm.type} onChange={handleChange}>
             <option value="">Type</option>
@@ -170,7 +214,7 @@ export function ManageCloths({ cloths, setClothes }) {
 
       <div className="admin-cloth-container">
         {cloths.map((cloth) => (
-          <div className="cloth-box" key={cloth._id}>
+          <div className="cloth-box" key={cloth._id} data-aos="fade-up">
             <img src={cloth.image} alt={cloth.description} />
             <p>{cloth.description}</p>
             <p>Type: {cloth.type}</p>
@@ -178,10 +222,16 @@ export function ManageCloths({ cloths, setClothes }) {
             <p>Size: {cloth.size}</p>
             <p>{cloth.price} ETB</p>
 
-            <button onClick={() => openEdit(cloth)} className="edit-button">
+            <button
+              onClick={() => openEdit(cloth)}
+              className="edit-button"
+              data-aos="fade-up"
+            >
               Edit
             </button>
-            <button onClick={() => deleteCloth(cloth._id)}>Delete</button>
+            <button onClick={() => deleteCloth(cloth._id)} data-aos="fade-up">
+              Delete
+            </button>
           </div>
         ))}
       </div>

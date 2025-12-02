@@ -48,11 +48,11 @@ export function Dashboard() {
     fetchRecentOrders();
   }, []);
   return (
-    <div className="dashboard">
+    <div className="dashboard" data-aos="fade-up">
       <div className="dashboard-upper">
-        <div className="dashboard-total-clothes">
-          <h2>Total Clothes</h2>
-          <PieChart width={450} height={210}>
+        <div className="dashboard-total-clothes" data-aos="fade-up">
+          <h2 data-aos="fade-up">Total Clothes</h2>
+          <PieChart width={450} height={210} data-aos="fade-up">
             <Pie
               data={data}
               cx="50%"
@@ -69,16 +69,16 @@ export function Dashboard() {
             <Legend />
           </PieChart>
         </div>
-        <div className="dashboard-total-users">
-          <h2>Total users</h2>
+        <div className="dashboard-total-users" data-aos="fade-up">
+          <h2 data-aos="fade-up">Total users</h2>
           <h1>
             {totalUsers} <br /> Users
           </h1>
         </div>
       </div>
-      <div className="dashboard-orders">
+      <div className="dashboard-orders" data-aos="fade-up">
         <div className="recent-orders">
-          <h2>Recent Orders</h2>
+          <h2 data-aos="fade-up">Recent Orders</h2>
           {recentOrders.map((name, idx) => (
             <p key={idx}>{name}</p>
           ))}

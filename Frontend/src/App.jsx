@@ -14,11 +14,22 @@ import { Dashboard } from "./pages/AdminDashboard/Dashboard";
 import { OrdersIn } from "./pages/AdminDashboard/OrdersIn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(localStorage.getItem("role") || "user");
   const [cloths, setClothes] = useState([]);
+  useEffect(() => {
+  AOS.init({
+    duration: 800, 
+    easing: "ease-in-out",
+    once: false,
+  });
+}, []);
+
   return (
     <BrowserRouter>
       <ToastContainer

@@ -42,16 +42,17 @@ export function OrdersIn() {
     <div className="orders-in">
       <h1>Orders In</h1>
       {ordersIn.map((order) => (
-        <div key={order._id} className="order">
-          <h3>Order ID: {order._id}</h3>
+        <div key={order._id} className="order" data-aos="fade-up">
+          <h3 data-aos="fade-up">Order ID: {order._id}</h3>
           {order.items.map((item, idx) => (
-            <div key={idx} className="order-item">
+            <div key={idx} className="order-item" data-aos="fade-up">
               <img src={item.image} alt="cloth" width="100" />
               <p>Description: {item.description}</p>
               <p>Size: {item.size}</p>
               <p>Price: ${item.price}</p>
               <p>Quantity: {item.quantity}</p>
               <button
+                data-aos="fade-up"
                 onClick={() => updateStatus(order._id, "accepted")}
                 className="accept-btn"
               >
@@ -59,6 +60,7 @@ export function OrdersIn() {
               </button>
 
               <button
+                data-aos="fade-up"
                 onClick={() => updateStatus(order._id, "rejected")}
                 className="reject-btn"
               >

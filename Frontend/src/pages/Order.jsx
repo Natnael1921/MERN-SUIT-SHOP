@@ -22,9 +22,9 @@ export function Order() {
   }, []);
 
   return (
-    <div className="orders-page">
+    <div className="orders-page" data-aos="fade-up">
       {orders.map((order, orderIndex) => (
-        <div key={order._id || orderIndex} className="order-box">
+        <div key={order._id || orderIndex} className="order-box" data-aos="fade-up">
           {order.items.map((item, itemIndex) => (
             <div key={itemIndex} className="order-item">
               <img src={item.image} alt="order item" />
@@ -33,8 +33,8 @@ export function Order() {
                 <p>Price: {item.price}</p>
                 <p>Size: {item.size}</p>
                 <p>Quantity: {item.quantity}</p>
-                <p>
-                  Status:{" "}
+                <p data-aos="fade-up">
+                  Status:
                   <span
                     className={`order-status ${
                       order.status === "accepted" ? "delivered" : "shipping"

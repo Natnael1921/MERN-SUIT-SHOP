@@ -79,12 +79,12 @@ export function Cloths({ cloths, setClothes }) {
 
       <div className="cloth-container">
         {cloths.map((cloth) => (
-          <div className="cloth-box" key={cloth._id}>
+          <div className="cloth-box" key={cloth._id} data-aos="fade-up">
             <img src={cloth.image} />
             <p>Type: {cloth.description}</p>
             <p>Size: {cloth.size}</p>
             <p>Price: {cloth.price} ETB</p>
-            <button onClick={() => AddToCart(cloth)}>Add to cart</button>
+            <button data-aos="fade-up" onClick={() => AddToCart(cloth)}>Add to cart</button>
           </div>
         ))}
       </div>

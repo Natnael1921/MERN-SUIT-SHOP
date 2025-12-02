@@ -30,7 +30,9 @@ export function Cart() {
               onClick={async () => {
                 try {
                   await axios.delete(`http://localhost:5000/api/cart/${id}`);
-                  setCartItems((prev) => prev.filter((item) => item._id !== id));
+                  setCartItems((prev) =>
+                    prev.filter((item) => item._id !== id)
+                  );
                   toast.success("Deleted successfully");
                 } catch (err) {
                   console.error(err);
@@ -45,7 +47,7 @@ export function Cart() {
           </div>
         </div>
       ),
-      { autoClose: false } 
+      { autoClose: false }
     );
   };
 
@@ -74,7 +76,8 @@ export function Cart() {
                 axios
                   .post("http://localhost:5000/api/orders/create", body)
                   .then((res) => {
-                    if (res.status === 201) toast.success("Order placed successfully");
+                    if (res.status === 201)
+                      toast.success("Order placed successfully");
                     else toast.error("Failed to place order");
                   })
                   .catch((error) => {
@@ -95,21 +98,29 @@ export function Cart() {
   };
 
   return (
-    <div className="cart-page">
+    <div className="cart-page" data-aos="fade-up">
       {cartItems.map(
         (item) =>
           item.clothId && (
-            <div className="cart-box" key={item._id}>
+            <div className="cart-box" key={item._id} data-aos="fade-up">
               <img src={item.clothId.image} alt="cart-item" />
               <div>
                 <p>Type: {item.clothId.description}</p>
                 <p>Size: {item.clothId.size}</p>
                 <p>Price: {item.clothId.price}</p>
 
-                <button className="order-button" onClick={() => handleOrder(item)}>
+                <button
+                  data-aos="fade-up"
+                  className="order-button"
+                  onClick={() => handleOrder(item)}
+                >
                   Order
                 </button>
-                <button className="delete-button" onClick={() => deleteCartItem(item._id)}>
+                <button
+                  data-aos="fade-up"
+                  className="delete-button"
+                  onClick={() => deleteCartItem(item._id)}
+                >
                   Delete
                 </button>
               </div>
