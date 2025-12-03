@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { PulseLoader } from "react-spinners";
 import "../../styles/admin.css";
 import api from "../../api";
 export function ManageCloths({ cloths, setClothes }) {
@@ -16,11 +17,19 @@ export function ManageCloths({ cloths, setClothes }) {
   const [addIsOpen, setAddIsOpen] = useState(false);
   const [editIsOpen, setEditIsOpen] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchClothes() {
-      const res = await api.get("/api/clothes");
-      setClothes(res.data.data);
+      try {
+        setLoading(true);
+        const res = await api.get("/api/clothes");
+        setClothes(res.data.data);
+      } catch (err) {
+        toast.error("Failed to fetch clothes");
+      } finally {
+        setLoading(false);
+      }
     }
     fetchClothes();
   }, []);
@@ -36,10 +45,7 @@ export function ManageCloths({ cloths, setClothes }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const res = await api.post(
-        "/api/clothes",
-        clothForm
-      );
+      const res = await api.post("/api/clothes", clothForm);
 
       setAddIsOpen(false);
       setClothes((prev) => [...prev, res.data.cloth]);
@@ -61,10 +67,7 @@ export function ManageCloths({ cloths, setClothes }) {
   async function handleUpdate(e) {
     e.preventDefault();
     try {
-      const res = await api.put(
-        `/api/clothes/${editId}`,
-        clothForm
-      );
+      const res = await api.put(`/api/clothes/${editId}`, clothForm);
 
       setClothes((prev) =>
         prev.map((c) => (c._id === editId ? res.data.cloth : c))
@@ -99,7 +102,7 @@ export function ManageCloths({ cloths, setClothes }) {
         Add Cloth
       </button>
       {addIsOpen && (
-        <form className="cloth-form" onSubmit={handleSubmit} >
+        <form className="cloth-form" onSubmit={handleSubmit}>
           <button
             type="button"
             className="close-button"
@@ -213,27 +216,32 @@ export function ManageCloths({ cloths, setClothes }) {
       )}
 
       <div className="admin-cloth-container">
-        {cloths.map((cloth) => (
-          <div className="cloth-box" key={cloth._id} data-aos="fade-up">
-            <img src={cloth.image} alt={cloth.description} />
-            <p>{cloth.description}</p>
-            <p>Type: {cloth.type}</p>
-            <p>Color: {cloth.color}</p>
-            <p>Size: {cloth.size}</p>
-            <p>{cloth.price} ETB</p>
-
-            <button
-              onClick={() => openEdit(cloth)}
-              className="edit-button"
-              data-aos="fade-up"
-            >
-              Edit
-            </button>
-            <button onClick={() => deleteCloth(cloth._id)} data-aos="fade-up">
-              Delete
-            </button>
+        {loading ? (
+          <div className="spinner-container">
+            <PulseLoader color="gold" size={15} />
           </div>
-        ))}
+        ) : (
+          cloths.map((cloth) => (
+            <div className="cloth-box" key={cloth._id}>
+              <img src={cloth.image} alt={cloth.description} />
+              <p>{cloth.description}</p>
+              <p>Type: {cloth.type}</p>
+              <p>Color: {cloth.color}</p>
+              <p>Size: {cloth.size}</p>
+              <p>{cloth.price} ETB</p>
+              <button
+                onClick={() => openEdit(cloth)}
+                className="edit-button"
+                data-aos="fade-up"
+              >
+                Edit
+              </button>
+              <button onClick={() => deleteCloth(cloth._id)} data-aos="fade-up">
+                Delete
+              </button>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

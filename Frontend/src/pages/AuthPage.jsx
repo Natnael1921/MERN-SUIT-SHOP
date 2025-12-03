@@ -25,10 +25,7 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
     e.preventDefault();
     try {
       if (!isRegistered) {
-        const res = await api.post(
-          "/api/auth/register",
-          { ...form, role }
-        );
+        const res = await api.post("/api/auth/register", { ...form, role });
 
         toast.success("Registered successfully! Please login.");
         setIsRegistered(true);

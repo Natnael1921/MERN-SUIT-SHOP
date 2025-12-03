@@ -3,18 +3,23 @@ import React, { useEffect, useState } from "react";
 import "../styles/cloths.css";
 import { toast } from "react-toastify";
 import api from "../api";
+import { PulseLoader } from "react-spinners";
 
 export function Cloths({ cloths, setClothes }) {
   const types = ["All", "Wedding", "Business", "Vintage"];
   const colors = ["Black", "White", "Brown", "Blue"];
   const [activeType, setActiveType] = useState("All");
+  const [loading, setLoading] = useState(true);
   async function fetchClothes() {
     try {
+      setLoading(true);
       const res = await api.get("/api/clothes");
       setClothes(res.data.data);
     } catch (error) {
       console.error("Error fetching clothes", error);
       toast.error("Failed to fetch clothes");
+    } finally {
+      setLoading(false);
     }
   }
   useEffect(() => {
@@ -44,10 +49,12 @@ export function Cloths({ cloths, setClothes }) {
     }
   }
   function filterClothes(key, value) {
+    setLoading(true);
     api
       .get(`/api/clothes?${key}=${value}`)
       .then((res) => setClothes(res.data.data))
-      .catch(() => toast.error("Filtering error"));
+      .catch(() => toast.error("Filtering error"))
+      .finally(() => setLoading(false));
   }
   return (
     <div className="cloth-page">
@@ -79,15 +86,21 @@ export function Cloths({ cloths, setClothes }) {
       </div>
 
       <div className="cloth-container">
-        {cloths.map((cloth) => (
-          <div className="cloth-box" key={cloth._id} data-aos="fade-up">
-            <img src={cloth.image} />
-            <p>Type: {cloth.description}</p>
-            <p>Size: {cloth.size}</p>
-            <p>Price: {cloth.price} ETB</p>
-            <button onClick={() => AddToCart(cloth)}>Add to cart</button>
+        {loading ? (
+          <div className="spinner-container">
+            <PulseLoader color="gold" size={12} />
           </div>
-        ))}
+        ) : (
+          cloths.map((cloth) => (
+            <div className="cloth-box" key={cloth._id} data-aos="fade-up">
+              <img src={cloth.image} />
+              <p>Type: {cloth.description}</p>
+              <p>Size: {cloth.size}</p>
+              <p>Price: {cloth.price} ETB</p>
+              <button onClick={() => AddToCart(cloth)}>Add to cart</button>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

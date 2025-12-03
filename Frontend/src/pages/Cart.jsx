@@ -4,17 +4,22 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/cart.css";
 import api from "../api";
+import { PulseLoader } from "react-spinners";
 export function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem("userId");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchCartItems() {
       try {
+        setLoading(true);
         const res = await api.get(`/api/cart/${userId}`);
         setCartItems(res.data);
       } catch (error) {
         console.error("Error fetching cart items", error);
         toast.error("Error fetching cart items");
+      } finally {
+        setLoading(false);
       }
     }
     fetchCartItems();
@@ -100,34 +105,43 @@ export function Cart() {
 
   return (
     <div className="cart-page" data-aos="fade-up">
-      {cartItems.map(
-        (item) =>
-          item.clothId && (
-            <div className="cart-box" key={item._id} data-aos="fade-up">
-              <img src={item.clothId.image} alt="cart-item" />
-              <div>
-                <p>Type: {item.clothId.description}</p>
-                <p>Size: {item.clothId.size}</p>
-                <p>Price: {item.clothId.price}</p>
+      {loading ? (
+        <div className="spinner-container">
+          <PulseLoader color="gold" size={15} />
+        </div>
+      ) : cartItems.length === 0 ? (
+        <p className="empty-text">No cart items yet</p>
+      ) : (
+        cartItems.map(
+          (item) =>
+            item.clothId && (
+              <div className="cart-box" key={item._id} data-aos="fade-up">
+                <img src={item.clothId.image} alt="cart-item" />
+                <div>
+                  <p>Type: {item.clothId.description}</p>
+                  <p>Size: {item.clothId.size}</p>
+                  <p>Price: {item.clothId.price}</p>
 
-                <button
-                  data-aos="fade-up"
-                  className="order-button"
-                  onClick={() => handleOrder(item)}
-                >
-                  Order
-                </button>
-                <button
-                  data-aos="fade-up"
-                  className="delete-button"
-                  onClick={() => deleteCartItem(item._id)}
-                >
-                  Delete
-                </button>
+                  <button
+                    data-aos="fade-up"
+                    className="order-button"
+                    onClick={() => handleOrder(item)}
+                  >
+                    Order
+                  </button>
+                  <button
+                    data-aos="fade-up"
+                    className="delete-button"
+                    onClick={() => deleteCartItem(item._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          )
+            )
+        )
       )}
+
       <ToastContainer position="top-right" />
     </div>
   );

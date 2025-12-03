@@ -71,3 +71,17 @@
 .delete-button:hover {
   background-color: #555;
 }
+.spinner-container {
+  width: 60px;
+  height: 60px;
+  z-index: 10000;
+  position: fixed;
+  top: 50%;
+  right: 45%;
+}
+.empty-text {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 18px;
+  color: gold;
+}
