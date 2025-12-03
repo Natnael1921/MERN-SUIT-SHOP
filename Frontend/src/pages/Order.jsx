@@ -24,43 +24,47 @@ export function Order() {
     fetchMyOrders();
   }, []);
 
-  return (
-    <div className="orders-page" data-aos="fade-up">
-      {loading && (
-        <div className="spinner-container">
-          <PulseLoader size={15} color="gold" />
-        </div>
-      )}
-      {!loading &&
-        orders.map((order, orderIndex) => (
-          <div
-            key={order._id || orderIndex}
-            className="order-box"
-            data-aos="fade-up"
-          >
-            {order.items.map((item, itemIndex) => (
-              <div key={itemIndex} className="order-item">
-                <img src={item.image} alt="order item" />
-                <div>
-                  <p>{item.description}</p>
-                  <p>Price: {item.price}</p>
-                  <p>Size: {item.size}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <p data-aos="fade-up">
-                    Status:
-                    <span
-                      className={`order-status ${
-                        order.status === "accepted" ? "delivered" : "shipping"
-                      }`}
-                    >
-                      {order.status === "accepted" ? "Delivered" : "Shipping"}
-                    </span>
-                  </p>
-                </div>
+ return (
+  <div className="orders-page" data-aos="fade-up">
+    {loading && (
+      <div className="spinner-container">
+        <PulseLoader size={15} color="gold" />
+      </div>
+    )}
+    {!loading && orders.length === 0 && (
+      <p className="no-orders">No orders yet</p>
+    )}
+    {!loading &&
+      orders.length > 0 &&
+      orders.map((order, orderIndex) => (
+        <div
+          key={order._id || orderIndex}
+          className="order-box"
+          data-aos="fade-up"
+        >
+          {order.items.map((item, itemIndex) => (
+            <div key={itemIndex} className="order-item">
+              <img src={item.image} alt="order item" />
+              <div>
+                <p>{item.description}</p>
+                <p>Price: {item.price}</p>
+                <p>Size: {item.size}</p>
+                <p>Quantity: {item.quantity}</p>
+                <p data-aos="fade-up">
+                  Status:
+                  <span
+                    className={`order-status ${
+                      order.status === "accepted" ? "delivered" : "shipping"
+                    }`}
+                  >
+                    {order.status === "accepted" ? "Delivered" : "Shipping"}
+                  </span>
+                </p>
               </div>
-            ))}
-          </div>
-        ))}
-    </div>
-  );
+            </div>
+          ))}
+        </div>
+      ))}
+  </div>
+);
 }
