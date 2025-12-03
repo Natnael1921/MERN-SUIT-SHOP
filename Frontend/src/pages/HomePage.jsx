@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/home.css";
 import { useNavigate } from "react-router-dom";
 export function HomePage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="home-page">
       <section className="section-one" data-aos="fade-up">
@@ -11,14 +11,16 @@ export function HomePage() {
           Premium single-shop suit store offering expertly tailored suits for
           weddings, business, and formal occasions.
         </p>
-        <button  data-aos="fade-left" onClick={() => navigate("/cloths")}>Shop Now!</button>
+        <button data-aos="fade-left" onClick={() => navigate("/cloths")}>
+          Shop Now!
+        </button>
         <div className="landing-footer">
           <p>Working Hours - 9:00 Am - 6:00 Pm</p>
           <p>Location Addis Ababa , Piassa</p>
         </div>
         <img
           data-aos="fade-up"
-          src="public/landing-suit-removebg-preview.png"
+          src="/landing-suit-removebg-preview.png"
           className="landing-page-image"
         />
       </section>
@@ -26,15 +28,15 @@ export function HomePage() {
         <h2>Our Collections</h2>
         <div className="our-collections">
           <div data-aos="fade-up" onClick={() => navigate("/cloths")}>
-            <img src="public/wedding-suit.jpg" />
+            <img src="/wedding-suit.jpg" />
             <h4>Wedding suits</h4>
           </div>
           <div data-aos="fade-up" onClick={() => navigate("/cloths")}>
-            <img src="public/business-suit.webp" />
+            <img src="/business-suit.webp" />
             <h4>Business suits</h4>
           </div>
           <div data-aos="fade-up" onClick={() => navigate("/cloths")}>
-            <img src="public/old-style.webp" />
+            <img src="/old-style.webp" />
             <h4>Old Styles</h4>
           </div>
         </div>
