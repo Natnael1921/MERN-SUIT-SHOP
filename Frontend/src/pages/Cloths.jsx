@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../styles/cloths.css";
 import { toast } from "react-toastify";
@@ -9,7 +8,10 @@ export function Cloths({ cloths, setClothes }) {
   const types = ["All", "Wedding", "Business", "Vintage"];
   const colors = ["Black", "White", "Brown", "Blue"];
   const [activeType, setActiveType] = useState("All");
+  const [activeColor, setActiveColor] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   async function fetchClothes() {
     try {
       setLoading(true);
@@ -22,32 +24,30 @@ export function Cloths({ cloths, setClothes }) {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     fetchClothes();
   }, []);
 
   async function AddToCart(cloth) {
     const userId = localStorage.getItem("userId");
-
-    // NOT LOGGED IN
     if (!userId) {
       toast.error("Please login first to add items to cart");
       return;
     }
-
     try {
-      const res = await api.post("/api/cart", {
+      await api.post("/api/cart", {
         userId,
         clothId: cloth._id,
         quantity: 1,
       });
-
       toast.success("Added to cart successfully");
     } catch (error) {
       console.error("Error adding to cart", error);
       toast.error("Error adding to cart");
     }
   }
+
   function filterClothes(key, value) {
     setLoading(true);
     api
@@ -56,8 +56,54 @@ export function Cloths({ cloths, setClothes }) {
       .catch(() => toast.error("Filtering error"))
       .finally(() => setLoading(false));
   }
+
   return (
     <div className="cloth-page">
+      {/* MOBILE DROPDOWN FILTER */}
+      <div className="mobile-filter">
+        <button
+          className="dropdown-btn"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+        >
+          Filter: {activeType}, {activeColor}
+        </button>
+        {dropdownOpen && (
+          <div className="dropdown-list">
+            <p className="dropdown-title">Type</p>
+            {types.map((t) => (
+              <p
+                key={t}
+                className={t === activeType ? "active" : ""}
+                onClick={() => {
+                  setActiveType(t);
+                  t === "All"
+                    ? fetchClothes()
+                    : filterClothes("type", t.toLowerCase());
+                }}
+              >
+                {t}
+              </p>
+            ))}
+            <p className="dropdown-title">Color</p>
+            {colors.map((c) => (
+              <p
+                key={c}
+                className={c === activeColor ? "active" : ""}
+                onClick={() => {
+                  setActiveColor(c);
+                  c === "All"
+                    ? fetchClothes()
+                    : filterClothes("color", c.toLowerCase());
+                }}
+              >
+                {c}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* DESKTOP FILTER */}
       <div className="cloth-info">
         {types.map((t) => (
           <p
@@ -73,7 +119,6 @@ export function Cloths({ cloths, setClothes }) {
             {t}
           </p>
         ))}
-
         {colors.map((c) => (
           <p
             key={c}
@@ -85,6 +130,7 @@ export function Cloths({ cloths, setClothes }) {
         ))}
       </div>
 
+      {/* CLOTHES */}
       <div className="cloth-container">
         {loading ? (
           <div className="spinner-container">
@@ -93,7 +139,7 @@ export function Cloths({ cloths, setClothes }) {
         ) : (
           cloths.map((cloth) => (
             <div className="cloth-box" key={cloth._id} data-aos="fade-up">
-              <img src={cloth.image} />
+              <img src={cloth.image} alt={cloth.description} />
               <p>Type: {cloth.description}</p>
               <p>Size: {cloth.size}</p>
               <p>Price: {cloth.price} ETB</p>

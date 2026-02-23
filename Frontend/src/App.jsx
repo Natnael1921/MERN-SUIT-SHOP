@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { HomePage } from "./pages/HomePage";
 import { Cloths } from "./pages/Cloths";
-import { Contact } from "./pages/Contact";
 import { AuthPage } from "./pages/AuthPage";
 import { PageNav } from "./components/PageNav";
 import { useState } from "react";
@@ -19,8 +18,13 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(localStorage.getItem("role") || "user");
+ const [isLoggedIn, setIsLoggedIn] = useState(
+  !!localStorage.getItem("token")
+);
+
+const [role, setRole] = useState(
+  localStorage.getItem("role") || ""
+);
   const [cloths, setClothes] = useState([]);
   useEffect(() => {
   AOS.init({
@@ -55,7 +59,6 @@ export default function App() {
           path="/cloths"
           element={<Cloths cloths={cloths} setClothes={setClothes} />}
         />
-        <Route path="/contact" element={<Contact />} />
         <Route
           path="/auth"
           element={

@@ -1,76 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/nav.css";
 export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setRole("");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("userId");
     navigate("/");
-    localStorage.removeItem("userId");  
+    setMenuOpen(false);
   };
 
+  const isUser = isLoggedIn && role === "user";
+
   return (
-    <nav
-      className={`nav-bar ${isLoggedIn && role === "admin" ? "admin-nav" : ""}`}
-    >
+    <nav className={`nav-bar ${role === "admin" ? "admin-nav" : ""}`}>
+      {/* Logo */}
       {role !== "admin" && (
         <NavLink to="/">
           <span>Suit Craft</span>
         </NavLink>
       )}
 
-      <ul>
-        {isLoggedIn && role === "admin" ? (
-          <li>
-            <div className="dashboard-sidebar">
-              <div className="sidebar-contents">
-                <span>Suit Craft</span>
+      {isUser && (
+        <div
+          className={`hamburger ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <div className="line line1"></div>
+          <div className="line line2"></div>
+          <div className="line line3"></div>
+        </div>
+      )}
 
-                <NavLink to="/dashboard">Dashboard</NavLink>
-                <NavLink to="/manage-cloths">Manage cloths</NavLink>
-                <NavLink to="/orders-in">Orders in</NavLink>
-                <NavLink to="/dashboard">Users</NavLink>
-                <NavLink to="/dashboard">Shipping</NavLink>
-                <NavLink to="/dashboard">Finance</NavLink>
-
-                <button className="login-button" onClick={handleLogout}>
-                  Log out
-                </button>
-              </div>
-            </div>
-          </li>
-        ) : (
+      {/* Nav Links */}
+      <ul
+        className={`nav-links ${isUser ? "user-nav" : ""} ${menuOpen ? "open" : ""}`}
+      >
+        {isUser && (
           <>
             <li>
-              <NavLink to="/cloths">Cloths</NavLink>
+              <NavLink to="/cloths" onClick={() => setMenuOpen(false)}>
+                Cloths
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/contact">Contact Us</NavLink>
+              <NavLink to="/cart" onClick={() => setMenuOpen(false)}>
+                Cart
+              </NavLink>
             </li>
-            {isLoggedIn && role === "user" && (
-              <>
-                <li>
-                  <NavLink to="/cart">Cart</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/order">Order</NavLink>
-                </li>
-              </>
-            )}
             <li>
-              {isLoggedIn ? (
-                <button className="login-button" onClick={handleLogout}>
-                  Log out
-                </button>
-              ) : (
-                <NavLink className="login-button" to="/auth">
-                  Login
-                </NavLink>
-              )}
+              <NavLink to="/order" onClick={() => setMenuOpen(false)}>
+                Order
+              </NavLink>
+            </li>
+            <li>
+              <button className="login-button" onClick={handleLogout}>
+                Log out
+              </button>
             </li>
           </>
         )}
