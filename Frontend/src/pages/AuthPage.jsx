@@ -68,12 +68,10 @@ export function AuthPage({ setIsLoggedIn, isLoggedIn, role, setRole }) {
           >
             User
           </button>
+
           <button
             className={role === "admin" ? "active" : ""}
-            onClick={() => {
-              setRole("admin");
-              setIsRegistered(true);
-            }}
+            onClick={() => setRole("admin")} 
             type="button"
           >
             Admin
