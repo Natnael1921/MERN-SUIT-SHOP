@@ -1,71 +1,92 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/nav.css";
+
 export function PageNav({ isLoggedIn, setIsLoggedIn, role, setRole }) {
+
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleLogout = () => {
+  function handleLogout() {
     setIsLoggedIn(false);
     setRole("");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    localStorage.removeItem("userId");
     navigate("/");
     setMenuOpen(false);
-  };
+  }
 
-  const isUser = isLoggedIn && role === "user";
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  const isAdmin = role === "admin";
 
   return (
-    <nav className={`nav-bar ${role === "admin" ? "admin-nav" : ""}`}>
-      {/* Logo */}
-      {role !== "admin" && (
-        <NavLink to="/">
-          <span>Suit Craft</span>
-        </NavLink>
-      )}
+    <>
+      <nav className={`nav-bar ${isAdmin ? "admin-nav" : ""}`}>
 
-      {isUser && (
+        {!isAdmin && (
+          <NavLink to="/" onClick={closeMenu}>
+            <span>Suit Craft</span>
+          </NavLink>
+        )}
+
         <div
-          className={`hamburger ${menuOpen ? "active" : ""}`}
+          className={`hamburger ${menuOpen ? "open" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          <div className="line line1"></div>
-          <div className="line line2"></div>
-          <div className="line line3"></div>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      )}
 
-      {/* Nav Links */}
-      <ul
-        className={`nav-links ${isUser ? "user-nav" : ""} ${menuOpen ? "open" : ""}`}
-      >
-        {isUser && (
-          <>
-            <li>
-              <NavLink to="/cloths" onClick={() => setMenuOpen(false)}>
-                Cloths
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/cart" onClick={() => setMenuOpen(false)}>
-                Cart
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/order" onClick={() => setMenuOpen(false)}>
-                Order
-              </NavLink>
-            </li>
-            <li>
-              <button className="login-button" onClick={handleLogout}>
-                Log out
-              </button>
-            </li>
-          </>
-        )}
-      </ul>
-    </nav>
+      </nav>
+
+      {/* SIDEBAR (FOR ALL ROLES) */}
+      <div className={`dashboard-sidebar ${menuOpen ? "open" : ""}`}>
+
+        <div className="sidebar-contents">
+
+          <span>Suit Craft</span>
+
+          {isAdmin ? (
+            <>
+              <NavLink to="/dashboard" onClick={closeMenu}>Dashboard</NavLink>
+              <NavLink to="/manage-cloths" onClick={closeMenu}>Manage Cloths</NavLink>
+              <NavLink to="/orders-in" onClick={closeMenu}>Orders In</NavLink>
+              <NavLink to="/dashboard" onClick={closeMenu}>Users</NavLink>
+              <NavLink to="/dashboard" onClick={closeMenu}>Shipping</NavLink>
+              <NavLink to="/dashboard" onClick={closeMenu}>Finance</NavLink>
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/cloths" onClick={closeMenu}>Cloths</NavLink>
+              <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
+
+              {isLoggedIn && role === "user" && (
+                <>
+                  <NavLink to="/cart" onClick={closeMenu}>Cart</NavLink>
+                  <NavLink to="/order" onClick={closeMenu}>Orders</NavLink>
+                </>
+              )}
+
+              {isLoggedIn ? (
+                <button onClick={handleLogout}>Logout</button>
+              ) : (
+                <NavLink to="/auth" onClick={closeMenu}>Login</NavLink>
+              )}
+            </>
+          )}
+
+        </div>
+
+      </div>
+
+      {menuOpen && (
+        <div className="menu-overlay" onClick={closeMenu}></div>
+      )}
+    </>
   );
 }
